@@ -268,8 +268,8 @@
                 title: "AI Image Classification Model",
                 description: "Developed and evaluated an image classification model that achieved 92% accuracy on a Kaggle dataset. The process involved rigorous error analysis and performance tuning to optimize the model's effectiveness.",
                 longDescription: "This project showcases the ability to build and fine-tune a deep learning model for image classification. By leveraging Python and popular libraries within Google Colab, I was able to process a large dataset from Kaggle, apply data augmentation techniques, train a convolutional neural network (CNN), and systematically analyze the results to achieve high accuracy. This demonstrates a strong understanding of the end-to-end machine learning workflow.",
-                tags: ["Python", "Deep Learning", "Google Colab", "Kaggle", "CNN"],
-                link: "#", // Replace with GitHub link if available
+                tags: ["Python", "Google Colab", "Kaggle"],
+                link: "#", // Link is a placeholder, so the button won't show
                 imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=Image+Classification"
             },
             {
@@ -294,16 +294,26 @@
                     tagsHTML += `<span class="tag mr-2 mb-2 inline-block">${tag}</span>`;
                 });
 
-                projectsHTML += `
-                    <div class="glass-effect p-6 project-card flex flex-col">
-                        <h3 class="text-2xl font-bold text-white mb-3">${project.title}</h3>
-                        <p class="text-gray-400 mb-4 flex-grow">${project.description}</p>
-                        <div class="mb-4">
-                            ${tagsHTML}
-                        </div>
-                        <button onclick="openModal('${project.id}')" class="text-blue-400 hover:text-blue-300 font-semibold self-start text-left">
+                // Conditionally add the "View Project" button
+                let buttonHTML = '';
+                if (project.link && project.link !== '#') {
+                    buttonHTML = `
+                        <button onclick="openModal('${project.id}')" class="text-blue-400 hover:text-blue-300 font-semibold self-start text-left mt-auto pt-4">
                             View Project <i class="fas fa-arrow-right ml-1"></i>
                         </button>
+                    `;
+                }
+
+                projectsHTML += `
+                    <div class="glass-effect p-6 project-card flex flex-col h-full">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-3">${project.title}</h3>
+                            <p class="text-gray-400 mb-4">${project.description}</p>
+                            <div class="mb-4">
+                                ${tagsHTML}
+                            </div>
+                        </div>
+                        ${buttonHTML}
                     </div>
                 `;
             });
