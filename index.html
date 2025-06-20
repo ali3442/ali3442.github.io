@@ -35,13 +35,6 @@
             font-size: 0.8rem;
             font-weight: 500;
         }
-        .btn-primary {
-            background-color: #3b82f6; /* Blue */
-            transition: background-color 0.3s ease;
-        }
-        .btn-primary:hover {
-            background-color: #2563eb;
-        }
         .nav-link {
             transition: color 0.3s ease;
         }
@@ -54,6 +47,41 @@
         .project-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #1f2937; /* Darker Gray */
+            padding: 2rem;
+            border-radius: 0.75rem;
+            max-width: 50rem; /* Increased width */
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
         }
     </style>
 </head>
@@ -84,8 +112,8 @@
         </div>
     </header>
 
-
     <main>
+        <!-- Sections: Hero, Skills, Projects, Experience -->
         <!-- Hero Section -->
         <section id="about" class="section container mx-auto text-center flex flex-col items-center justify-center min-h-screen">
              <img src="https://placehold.co/150x150/111827/FFFFFF?text=AK" alt="Ali Kassem" class="rounded-full w-40 h-40 mb-6 border-4 border-gray-700">
@@ -117,7 +145,7 @@
                     <div class="glass-effect p-6 text-center">
                         <i class="fas fa-tools fa-2x text-blue-400 mb-4"></i>
                         <h3 class="text-xl font-semibold text-white mb-2">Software & Tools</h3>
-                        <p class="text-gray-400">Microsoft Office Suite</p>
+                        <p class="text-gray-400">Microsoft Office Suite, Tkinter, SQLite</p>
                     </div>
 
                     <div class="glass-effect p-6 text-center">
@@ -217,27 +245,48 @@
              <p class="mt-8 text-gray-500 text-sm">&copy; 2024 Ali Kassem. All rights reserved.</p>
         </div>
     </footer>
+    
+    <!-- Modal -->
+    <div id="project-modal" class="modal-overlay">
+        <div class="modal-content relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+            <img id="modal-img" src="" alt="Project Image" class="w-full h-64 object-cover rounded-lg mb-4">
+            <h3 id="modal-title" class="text-3xl font-bold text-white mb-2"></h3>
+            <div id="modal-tags" class="mb-4"></div>
+            <p id="modal-description" class="text-gray-300 mb-6"></p>
+            <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                View Code on GitHub <i class="fab fa-github ml-2"></i>
+            </a>
+        </div>
+    </div>
 
     <script>
         // Data for projects
         const projects = [
             {
+                id: 'ai-model',
                 title: "AI Image Classification Model",
                 description: "Developed and evaluated an image classification model that achieved 92% accuracy on a Kaggle dataset. The process involved rigorous error analysis and performance tuning to optimize the model's effectiveness.",
-                tags: ["Python", "Deep Learning", "Google Colab", "Kaggle"],
-                link: "#" // Replace with actual link to project or GitHub repo
+                longDescription: "This project showcases the ability to build and fine-tune a deep learning model for image classification. By leveraging Python and popular libraries within Google Colab, I was able to process a large dataset from Kaggle, apply data augmentation techniques, train a convolutional neural network (CNN), and systematically analyze the results to achieve high accuracy. This demonstrates a strong understanding of the end-to-end machine learning workflow.",
+                tags: ["Python", "Deep Learning", "Google Colab", "Kaggle", "CNN"],
+                link: "#", // Replace with GitHub link if available
+                imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=Image+Classification"
             },
             {
+                id: 'scm-sim',
                 title: "Supply Chain Management (SCM) Simulation",
-                description: "Built a comprehensive SCM simulation using Object-Oriented principles in Python. This project features an integrated local Large Language Model (LLM) for providing intelligent insights, automating customer review analysis, and generating dynamic marketing content.",
-                tags: ["Python", "OOP", "LLM", "Simulation"],
-                link: "#" // Replace with actual link to project or GitHub repo
+                description: "Built a comprehensive SCM simulation using Object-Oriented principles in Python, featuring an integrated local LLM and a Tkinter GUI.",
+                longDescription: "This project is a complete, object-oriented simulation of a supply chain management system. It models the entire flow from suppliers to customers using Python classes. Key features include a GUI built with Tkinter, database integration with SQLite for persisting data, and the use of a local Large Language Model (LLM) to provide AI-powered insights, such as generating marketing slogans and analyzing customer reviews. It also implements the Proxy design pattern to manage access control for different user roles.",
+                tags: ["Python", "OOP", "LLM", "Tkinter", "SQLite", "Design Patterns"],
+                link: "https://github.com/ali3442/SCM-Simulation-Project",
+                imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=SCM+Simulation"
             }
         ];
 
         // Function to render projects
         function renderProjects() {
             const container = document.getElementById('projects-container');
+            if (!container) return;
             let projectsHTML = '';
             projects.forEach(project => {
                 let tagsHTML = '';
@@ -252,16 +301,57 @@
                         <div class="mb-4">
                             ${tagsHTML}
                         </div>
-                        <a href="${project.link}" class="text-blue-400 hover:text-blue-300 font-semibold self-start">
+                        <button onclick="openModal('${project.id}')" class="text-blue-400 hover:text-blue-300 font-semibold self-start text-left">
                             View Project <i class="fas fa-arrow-right ml-1"></i>
-                        </a>
+                        </button>
                     </div>
                 `;
             });
             container.innerHTML = projectsHTML;
         }
 
-        // Mobile menu toggle
+        const modal = document.getElementById('project-modal');
+
+        function openModal(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project || !modal) return;
+
+            document.getElementById('modal-title').innerText = project.title;
+            document.getElementById('modal-description').innerText = project.longDescription;
+            document.getElementById('modal-img').src = project.imageUrl;
+            document.getElementById('modal-link').href = project.link;
+
+            const tagsContainer = document.getElementById('modal-tags');
+            tagsContainer.innerHTML = '';
+            project.tags.forEach(tag => {
+                tagsContainer.innerHTML += `<span class="tag mr-2 mb-2 inline-block">${tag}</span>`;
+            });
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Close modal on Escape key press
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") {
+                closeModal();
+            }
+        });
+
+
+        // --- Mobile Menu Logic ---
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -269,7 +359,6 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Close mobile menu when a link is clicked
         document.querySelectorAll('#mobile-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
@@ -281,4 +370,4 @@
         document.addEventListener('DOMContentLoaded', renderProjects);
     </script>
 </body>
-</html>s
+</html>
