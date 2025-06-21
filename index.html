@@ -156,6 +156,37 @@
         a[aria-label="LinkedIn"]:hover { color: #0A66C2; }
         a[aria-label="WhatsApp"]:hover { color: #25D366; }
 
+        /* Language Panel Styles */
+        #language-panel {
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0.2s;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+        }
+        #language-panel.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* RTL support */
+        [dir="rtl"] .space-x-6 > :not([hidden]) ~ :not([hidden]) {
+            margin-right: 1.5rem;
+            margin-left: 0;
+        }
+        [dir="rtl"] .space-x-8 > :not([hidden]) ~ :not([hidden]) {
+            margin-right: 2rem;
+            margin-left: 0;
+        }
+        [dir="rtl"] .sm\\:ml-4 {
+            margin-right: 1rem !important;
+            margin-left: 0 !important;
+        }
+        [dir="rtl"] .mr-6 {
+            margin-left: 1.5rem !important;
+            margin-right: 0 !important;
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -164,37 +195,50 @@
     <canvas id="particle-canvas"></canvas>
 
     <!-- Header & Navigation -->
-    <header class="fixed w-full z-10 glass-effect top-0 shadow-md">
+    <header class="fixed w-full z-20 glass-effect top-0 shadow-md">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-xl font-bold text-white">Ali Kassem</a>
-            <div id="desktop-nav" class="hidden md:flex space-x-6 text-gray-300">
-                <a href="#about" class="nav-link">About</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#experience" class="nav-link">Experience</a>
-                <a href="#contact" class="nav-link">Contact</a>
+            <a href="#" class="text-xl font-bold text-white" data-translate="name_logo">Ali Kassem</a>
+            <div class="flex items-center">
+                <div id="desktop-nav" class="hidden md:flex items-center space-x-6 text-gray-300">
+                    <a href="#about" class="nav-link" data-translate="nav_about">About</a>
+                    <a href="#skills" class="nav-link" data-translate="nav_skills">Skills</a>
+                    <a href="#projects" class="nav-link" data-translate="nav_projects">Projects</a>
+                    <a href="#experience" class="nav-link" data-translate="nav_experience">Experience</a>
+                    <a href="#contact" class="nav-link" data-translate="nav_contact">Contact</a>
+                </div>
+                <!-- Language Selector Icon -->
+                <button id="language-selector-button" class="hidden md:block ml-6 text-gray-300 hover:text-blue-400 focus:outline-none transition-colors" aria-label="Select language">
+                    <i class="fas fa-language fa-lg"></i>
+                </button>
+                <button id="mobile-menu-button" class="md:hidden ml-4 text-white focus:outline-none">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
             </div>
-            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
-                <i class="fas fa-bars fa-lg"></i>
-            </button>
         </nav>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-gray-800/80 backdrop-blur">
-            <a href="#about" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700">About</a>
-            <a href="#skills" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700">Skills</a>
-            <a href="#projects" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700">Projects</a>
-            <a href="#experience" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700">Experience</a>
-            <a href="#contact" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700">Contact</a>
+            <a href="#about" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_about">About</a>
+            <a href="#skills" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_skills">Skills</a>
+            <a href="#projects" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_projects">Projects</a>
+            <a href="#experience" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_experience">Experience</a>
+            <a href="#contact" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_contact">Contact</a>
         </div>
     </header>
+
+    <!-- Language Selector Panel (Floats below the header) -->
+    <div id="language-panel" class="fixed z-10 glass-effect rounded-lg shadow-xl py-2 w-40 text-sm">
+        <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700/50 transition-colors" data-lang="en">English</a>
+        <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700/50 transition-colors" data-lang="ar">Arabic</a>
+        <a href="#" class="block px-4 py-2 text-gray-200 hover:bg-gray-700/50 transition-colors" data-lang="ja">Japanese</a>
+    </div>
 
     <main>
         <!-- Hero Section -->
         <section id="about" class="section container mx-auto text-center flex flex-col items-center justify-center min-h-screen">
              <img src="https://placehold.co/150x150/111827/FFFFFF?text=AK" alt="Ali Kassem" class="rounded-full w-40 h-40 mb-6 border-4 border-gray-700 reveal-element" onerror="this.onerror=null;this.src='https://placehold.co/150x150/111827/FFFFFF?text=Image+Error';">
-            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 reveal-element">Ali Kassem</h1>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 reveal-element" data-translate="hero_name">Ali Kassem</h1>
             <p class="text-xl md:text-2xl text-blue-400 mb-8 h-8 reveal-element"><span id="typing-subtitle"></span><span class="typing-cursor"></span></p>
-            <p class="max-w-3xl text-lg text-gray-400 reveal-element">
+            <p class="max-w-3xl text-lg text-gray-400 reveal-element" data-translate="hero_bio">
                 A Computer Science student at E-JUST specializing in AI and software development. I use my skills in Python, Machine learning and Deep learning to build innovative tech solutions and solve real-world problems.
             </p>
         </section>
@@ -202,14 +246,14 @@
         <!-- Skills Section -->
         <section id="skills" class="section bg-gray-900/50">
             <div class="container mx-auto">
-                <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element">My Skillset</h2>
+                <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element" data-translate="skills_title">My Skillset</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-code fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">Programming</h3><p class="text-gray-400">Python (Object-Oriented Programming)</p></div>
-                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-brain fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">AI & Data Science</h3><p class="text-gray-400">Machine learning, Deep Learning, Image Classification, LLM Integration</p></div>
-                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-tools fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">Software & Tools</h3><p class="text-gray-400">Git, GitHub, VS Code, Llama.cpp, Google Colab</p></div>
-                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-tasks fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">Professional Skills</h3><p class="text-gray-400">Project Management, Problem Solving, Error Analysis</p></div>
-                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-language fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">Languages</h3><p class="text-gray-400">Arabic (Native), English (Advanced), Japanese (Basics)</p></div>
-                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-atom fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">Emerging Tech</h3><p class="text-gray-400">Familiar with Quantum Computing Applications in AI</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-code fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2" data-translate="skill_cat_1">Programming</h3><p class="text-gray-400" data-translate="skill_desc_1">Python (Object-Oriented Programming)</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-brain fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2" data-translate="skill_cat_2">AI & Data Science</h3><p class="text-gray-400" data-translate="skill_desc_2">Machine learning, Deep Learning, Image Classification, LLM Integration</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-tools fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2" data-translate="skill_cat_3">Software & Tools</h3><p class="text-gray-400" data-translate="skill_desc_3">Git, GitHub, VS Code, Llama.cpp, Google Colab</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-tasks fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2" data-translate="skill_cat_4">Professional Skills</h3><p class="text-gray-400" data-translate="skill_desc_4">Project Management, Problem Solving, Error Analysis</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-language fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2" data-translate="skill_cat_5">Languages</h3><p class="text-gray-400" data-translate="skill_desc_5">Arabic (Native), English (Advanced), Japanese (Basics)</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-atom fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2" data-translate="skill_cat_6">Emerging Tech</h3><p class="text-gray-400" data-translate="skill_desc_6">Familiar with Quantum Computing Applications in AI</p></div>
                 </div>
             </div>
         </section>
@@ -217,7 +261,7 @@
         <!-- Projects Section -->
         <section id="projects" class="section">
             <div class="container mx-auto">
-                <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element">Projects</h2>
+                <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element" data-translate="projects_title">Projects</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projects-container">
                     <!-- Projects dynamically inserted here -->
                 </div>
@@ -227,154 +271,292 @@
         <!-- Experience & Education Section -->
         <section id="experience" class="section bg-gray-900/50">
             <div class="container mx-auto">
-                <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element">Experience & Education</h2>
+                <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element" data-translate="exp_edu_title">Experience & Education</h2>
                 <div class="max-w-4xl mx-auto">
                     <!-- Experience -->
                     <div class="mb-12">
-                        <h3 class="text-2xl font-bold text-white mb-8 reveal-element border-b-2 border-blue-500/50 pb-3">Experience</h3>
-                        <div class="space-y-8">
-                            <!-- Item 1: SCM Project -->
-                            <div class="reveal-element flex">
-                                <div class="mr-6 flex-shrink-0">
-                                    <i class="fas fa-code-branch text-blue-400 text-2xl mt-1"></i>
-                                </div>
-                                <div>
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
-                                        <p class="font-semibold text-white text-lg">Supply Chain Management Project <span class="text-gray-400 font-normal">(Jan 2025 - Apr 2025)</span></p>
-                                        <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">Personal Project</p>
-                                    </div>
-                                    <p class="text-gray-400">led a comprehensive SCM simulation in Python (OOP), personally writing about 60% of the main code. I integrated a local LLM for intelligent insights, review analysis, and marketing content generation. The project also includes a Tkinter GUI, SQLite, and Proxy design pattern. My role combined leadership with significant technical and AI contributions.</p>
-                                </div>
-                            </div>
-                            <!-- Item 2: AI Intern -->
-                            <div class="reveal-element flex">
-                                 <div class="mr-6 flex-shrink-0">
-                                    <i class="fas fa-brain text-blue-400 text-2xl mt-1"></i>
-                                </div>
-                                <div>
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
-                                        <p class="font-semibold text-white text-lg">AI Training Intern <span class="text-gray-400 font-normal">(Summer 2024)</span></p>
-                                        <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">Shabab Mobtakeroon</p>
-                                    </div>
-                                    <p class="text-gray-400">Trained an image classification model using Python and Google Colab, achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.</p>
-                                </div>
-                            </div>
+                        <h3 class="text-2xl font-bold text-white mb-8 reveal-element border-b-2 border-blue-500/50 pb-3" data-translate="exp_title">Experience</h3>
+                        <div id="experience-container" class="space-y-8">
+                           <!-- Experience items dynamically inserted here -->
                         </div>
                     </div>
                     <!-- Education -->
                     <div>
-                        <h3 class="text-2xl font-bold text-white mb-8 reveal-element border-b-2 border-blue-500/50 pb-3">Education</h3>
-                         <div class="space-y-8">
-                            <!-- Item 1: University -->
-                             <div class="reveal-element flex">
-                                <div class="mr-6 flex-shrink-0">
-                                   <i class="fas fa-graduation-cap text-blue-400 text-2xl mt-1"></i>
-                                </div>
-                                <div>
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
-                                        <p class="font-semibold text-white text-lg">Bachelor of Computer Science <span class="text-gray-400 font-normal">(2024 - 2028)</span></p>
-                                        <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">E-JUST University</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Item 2: High School -->
-                             <div class="reveal-element flex">
-                                <div class="mr-6 flex-shrink-0">
-                                   <i class="fas fa-school text-blue-400 text-2xl mt-1"></i>
-                                </div>
-                                <div>
-                                   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
-                                        <p class="font-semibold text-white text-lg">High School Diploma <span class="text-gray-400 font-normal">(2010 - 2024)</span></p>
-                                        <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">Victoria College</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Item 3: English Course -->
-                             <div class="reveal-element flex">
-                                <div class="mr-6 flex-shrink-0">
-                                   <i class="fas fa-language text-blue-400 text-2xl mt-1"></i>
-                                </div>
-                                <div>
-                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
-                                        <p class="font-semibold text-white text-lg">English Conversation Advanced 3 <span class="text-gray-400 font-normal">(2022 - 2023)</span></p>
-                                        <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">American Institute</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <h3 class="text-2xl font-bold text-white mb-8 reveal-element border-b-2 border-blue-500/50 pb-3" data-translate="edu_title">Education</h3>
+                         <div id="education-container" class="space-y-8">
+                           <!-- Education items dynamically inserted here -->
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
 
     <!-- Footer -->
     <footer id="contact" class="bg-gray-900 text-white section">
         <div class="container mx-auto py-12 px-6 text-center">
-            <h2 class="text-2xl font-bold mb-4 reveal-element">Get In Touch</h2>
-            <p class="text-gray-400 mb-8 max-w-md mx-auto reveal-element">I'm always open to discussing new projects, creative ideas, or opportunities.<br> Feel free to reach out!</p>
+            <h2 class="text-2xl font-bold mb-4 reveal-element" data-translate="contact_title">Get In Touch</h2>
+            <p class="text-gray-400 mb-8 max-w-md mx-auto reveal-element" data-translate="contact_desc">I'm always open to discussing new projects, creative ideas, or opportunities.<br> Feel free to reach out!</p>
             <div class="flex justify-center items-center space-x-8 reveal-element">
                 <a href="mailto:alikassemak2005@gmail.com" class="text-3xl text-gray-400 contact-icon" aria-label="Email"><i class="fas fa-envelope"></i></a>
                 <a href="https://www.linkedin.com/in/ali-kassem-7224bb244/" target="_blank" rel="noopener noreferrer" class="text-3xl text-gray-400 contact-icon" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 <a href="https://wa.me/201017198344" target="_blank" rel="noopener noreferrer" class="text-3xl text-gray-400 contact-icon" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
-             <p class="mt-10 text-gray-500 text-sm reveal-element">&copy; 2025 Ali Kassem. All rights reserved.</p>
+             <p class="mt-10 text-gray-500 text-sm reveal-element" data-translate="footer_copy">&copy; 2025 Ali Kassem. All rights reserved.</p>
         </div>
     </footer>
     
     <!-- Modal for Project Details -->
     <div id="project-modal" class="modal-overlay">
-        <div class="modal-content relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-4xl leading-none transition-transform duration-200 hover:scale-125" aria-label="Close modal">&times;</button>
-            <img id="modal-img" src="" alt="Project Image" class="w-full h-64 object-cover rounded-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1f2937/d1d5db?text=Image+Error';">
-            <h3 id="modal-title" class="text-3xl font-bold text-white mb-2"></h3>
-            <div id="modal-tags" class="mb-4 flex flex-wrap gap-2"></div>
-            <p id="modal-description" class="text-gray-300 mb-6"></p>
-            <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300">
-                View Code on GitHub <i class="fab fa-github ml-2"></i>
-            </a>
-        </div>
+        <!-- Modal content is dynamically generated and translated via JS -->
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
 
-            // --- DATA ---
-            const projects = [
-                { id: 'ai-model', title: "AI Image Classification Model", description: "Trained an image classification model achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.",longDescription: 'none', tags: ["Python", "Google Colab", "Kaggle","model training"], link: null, imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=Image+Classification" },
-             { id: 'scm-sim', title: "Supply Chain Management (SCM) Simulation", description: "A Python-based SCM simulation using OOP principles, featuring a Tkinter GUI and an integrated local LLM for intelligent insights.", longDescription: "Led the development of a comprehensive Supply Chain Management (SCM) simulation in Python, built with Object-Oriented Programming (OOP). As team leader, I managed the entire team, and was personally responsible for writing about 60% of the main code classes. On top of that, I specifically integrated the local Large Language Model (LLM). This AI component now provides intelligent insights, analyzes customer reviews, and generates dynamic marketing content within the simulation. My role encompassed both leadership and direct, substantial technical contribution, bringing a powerful, intelligent layer to our project.", tags: ["Python", "OOP", "Tkinter", "LLM", "Project Management"], link: "https://github.com/", imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=SCM+Simulation" }
+            // --- DATA & TRANSLATIONS---
+            const translations = {
+                en: {
+                    name_logo: "Ali Kassem",
+                    nav_about: "About",
+                    nav_skills: "Skills",
+                    nav_projects: "Projects",
+                    nav_experience: "Experience & Education",
+                    nav_contact: "Contact",
+                    hero_name: "Ali Kassem",
+                    hero_subtitle: "Computer Science Student",
+                    hero_bio: "A Computer Science student at E-JUST specializing in AI and software development. I use my skills in Python, Machine learning and Deep learning to build innovative tech solutions and solve real-world problems.",
+                    skills_title: "My Skillset",
+                    skill_cat_1: "Programming", skill_desc_1: "Python (Object-Oriented Programming)",
+                    skill_cat_2: "AI & Data Science", skill_desc_2: "Machine learning, Deep Learning, Image Classification, LLM Integration",
+                    skill_cat_3: "Software & Tools", skill_desc_3: "Git, GitHub, VS Code, Llama.cpp, Google Colab",
+                    skill_cat_4: "Professional Skills", skill_desc_4: "Project Management, Problem Solving, Error Analysis",
+                    skill_cat_5: "Languages", skill_desc_5: "Arabic (Native), English (Advanced), Japanese (Basics)",
+                    skill_cat_6: "Emerging Tech", skill_desc_6: "Familiar with Quantum Computing Applications in AI",
+                    projects_title: "Projects",
+                    view_details: "View Details",
+                    exp_edu_title: "Experience & Education",
+                    exp_title: "Experience",
+                    edu_title: "Education",
+                    contact_title: "Get In Touch",
+                    contact_desc: "I'm always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out!",
+                    footer_copy: "© 2025 Ali Kassem. All rights reserved.",
+                    modal_view_code: "View Code on GitHub"
+                },
+                ar: {
+                    name_logo: "علي قاسم",
+                    nav_about: "عني",
+                    nav_skills: "مهاراتي",
+                    nav_projects: "مشاريعي",
+                    nav_experience: "الخبرة والتعليم",
+                    nav_contact: "تواصل معي",
+                    hero_name: "علي قاسم",
+                    hero_subtitle: "طالب علوم حاسوب",
+                    hero_bio: "طالب علوم حاسوب في الجامعة المصرية اليابانية للعلوم والتكنولوجيا، متخصص في الذكاء الاصطناعي وتطوير البرمجيات. أستخدم مهاراتي في بايثون والتعلم الآلي والتعلم العميق لبناء حلول تقنية مبتكرة وحل مشاكل العالم الحقيقي.",
+                    skills_title: "مجموعة مهاراتي",
+                    skill_cat_1: "البرمجة", skill_desc_1: "بايثون (البرمجة كائنية التوجه)",
+                    skill_cat_2: "الذكاء الاصطناعي وعلوم البيانات", skill_desc_2: "تعلم الآلة، التعلم العميق، تصنيف الصور، تكامل نماذج اللغة الكبيرة",
+                    skill_cat_3: "البرامج والأدوات", skill_desc_3: "Git، GitHub، VS Code، Llama.cpp، Google Colab",
+                    skill_cat_4: "المهارات المهنية", skill_desc_4: "إدارة المشاريع، حل المشكلات، تحليل الأخطاء",
+                    skill_cat_5: "اللغات", skill_desc_5: "العربية (لغة أم)، الإنجليزية (متقدم)، اليابانية (أساسيات)",
+                    skill_cat_6: "التقنيات الناشئة", skill_desc_6: "على دراية بتطبيقات الحوسبة الكمومية في الذكاء الاصطناعي",
+                    projects_title: "مشاريعي",
+                    view_details: "عرض التفاصيل",
+                    exp_edu_title: "الخبرة والتعليم",
+                    exp_title: "الخبرة",
+                    edu_title: "التعليم",
+                    contact_title: "تواصل معي",
+                    contact_desc: "أنا دائما منفتح لمناقشة المشاريع الجديدة أو الأفكار الإبداعية أو الفرص. لا تتردد في التواصل!",
+                    footer_copy: "© 2025 علي قاسم. جميع الحقوق محفوظة.",
+                    modal_view_code: "عرض الكود على GitHub"
+                },
+                ja: {
+                    name_logo: "アリ・カセム",
+                    nav_about: "概要",
+                    nav_skills: "スキル",
+                    nav_projects: "プロジェクト",
+                    nav_experience: "経験と学歴",
+                    nav_contact: "連絡先",
+                    hero_name: "アリ・カセム",
+                    hero_subtitle: "コンピューターサイエンスの学生",
+                    hero_bio: "E-JUSTのコンピューターサイエンスを専攻する学生で、AIとソフトウェア開発を専門としています。Python、機械学習、深層学習のスキルを活かして、革新的な技術ソリューションを構築し、現実世界の問題を解決します。",
+                    skills_title: "私のスキルセット",
+                    skill_cat_1: "プログラミング", skill_desc_1: "Python (オブジェクト指向プログラミング)",
+                    skill_cat_2: "AI & データサイエンス", skill_desc_2: "機械学習、深層学習、画像分類、LLM統合",
+                    skill_cat_3: "ソフトウェア & ツール", skill_desc_3: "Git、GitHub、VS Code、Llama.cpp、Google Colab",
+                    skill_cat_4: "プロフェッショナルスキル", skill_desc_4: "プロジェクト管理、問題解決、エラー分析",
+                    skill_cat_5: "言語", skill_desc_5: "アラビア語 (ネイティブ)、英語 (上級)、日本語 (基礎)",
+                    skill_cat_6: "新興技術", skill_desc_6: "AIにおける量子コンピューティングの応用にも精通しています",
+                    projects_title: "プロジェクト",
+                    view_details: "詳細を見る",
+                    exp_edu_title: "経験と学歴",
+                    exp_title: "経験",
+                    edu_title: "学歴",
+                    contact_title: "お問い合わせ",
+                    contact_desc: "新しいプロジェクト、創造的なアイデア、または機会についての議論をいつでも歓迎します。お気軽にご連絡ください！",
+                    footer_copy: "© 2025 アリ・カセム. 全著作権所有.",
+                    modal_view_code: "GitHubでコードを見る"
+                }
+            };
+            
+            // Dynamic content data
+            const projectsData = [
+                { 
+                    id: 'ai-model', 
+                    title: {
+                        en: "AI Image Classification Model",
+                        ar: "نموذج تصنيف الصور بالذكاء الاصطناعي",
+                        ja: "AI画像分類モデル"
+                    },
+                    description: {
+                        en: "Trained an image classification model achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.",
+                        ar: "تم تدريب نموذج تصنيف صور يحقق دقة 92٪ على مجموعة بيانات Kaggle من خلال تحليل الأخطاء الدقيق وضبط الأداء.",
+                        ja: "厳密なエラー分析とパフォーマンスチューニングを通じて、Kaggleデータセットで92％の精度を達成した画像分類モデルをトレーニングしました。"
+                    },
+                    longDescription: {
+                        en: 'none',
+                        ar: 'none',
+                        ja: 'none'
+                    },
+                    tags: ["Python", "Google Colab", "Kaggle","model training"], 
+                    link: null, 
+                    imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=Image+Classification" 
+                },
+                { 
+                    id: 'scm-sim', 
+                    title: {
+                        en: "Supply Chain Management (SCM) Simulation",
+                        ar: "محاكاة إدارة سلسلة التوريد (SCM)",
+                        ja: "サプライチェーンマネジメント（SCM）シミュレーション"
+                    },
+                    description: {
+                        en: "A Python-based SCM simulation using OOP principles, featuring a Tkinter GUI and an integrated local LLM for intelligent insights.",
+                        ar: "محاكاة SCM قائمة على بايثون تستخدم مبادئ OOP ، وتتميز بواجهة مستخدم رسومية Tkinter ونموذج لغة كبير محلي مدمج للحصول على رؤى ذكية.",
+                        ja: "OOP原則を使用したPythonベースのSCMシミュレーションで、Tkinter GUIとインテリジェントな洞察のための統合されたローカルLLMを備えています。"
+                    },
+                    longDescription: {
+                        en: "Led the development of a comprehensive Supply Chain Management (SCM) simulation in Python, built with Object-Oriented Programming (OOP). As team leader, I managed the entire team, and was personally responsible for writing about 60% of the main code classes. On top of that, I specifically integrated the local Large Language Model (LLM). This AI component now provides intelligent insights, analyzes customer reviews, and generates dynamic marketing content within the simulation. My role encompassed both leadership and direct, substantial technical contribution, bringing a powerful, intelligent layer to our project.",
+                        ar: "قمت بقيادة تطوير محاكاة شاملة لإدارة سلسلة التوريد (SCM) في بايثون، مبنية على البرمجة كائنية التوجه (OOP). بصفتي قائد الفريق، أدرت الفريق بأكمله، وكنت مسؤولاً شخصيًا عن كتابة حوالي 60٪ من فئات الكود الرئيسية. علاوة على ذلك، قمت بدمج نموذج لغة كبير محلي (LLM) على وجه التحديد. يوفر هذا المكون الذكي الآن رؤى ذكية، ويحلل مراجعات العملاء، وينشئ محتوى تسويقيًا ديناميكيًا داخل المحاكاة. شمل دوري القيادة والمساهمة الفنية المباشرة والكبيرة، مما أضاف طبقة قوية وذكية لمشروعنا.",
+                        ja: "オブジェクト指向プログラミング（OOP）で構築された、Pythonでの包括的なサプライチェーンマネジメント（SCM）シミュレーションの開発を主導しました。チームリーダーとして、私はチーム全体を管理し、メインコードクラスの約60％を個人的に記述する責任がありました。さらに、ローカル大規模言語モデル（LLM）を特別に統合しました。このAIコンポーネントは、シミュレーション内でインテリジェントな洞察を提供し、顧客レビューを分析し、動的なマーケティングコンテンツを生成します。私の役割は、リーダーシップと直接的で実質的な技術的貢献の両方を含み、私たちのプロジェクトに強力でインテリジェントな層をもたらしました。"
+                    },
+                    tags: ["Python", "OOP", "Tkinter", "LLM", "Project Management"], 
+                    link: "https://github.com/", 
+                    imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=SCM+Simulation" 
+                }
             ];
 
-            // --- INITIALIZATION ---
-            renderProjects();
-            initMobileMenu();
-            initTypingEffect();
-            initScrollReveal();
-            initNavHighlightingOnScroll();
-            initInteractiveCards();
-            initParticleCanvas();
+            const experienceData = [
+                { 
+                    icon: 'fa-code-branch',
+                    title: { en: 'Supply Chain Management Project', ar: 'مشروع إدارة سلسلة التوريد', ja: 'サプライチェーンマネジメントプロジェクト' },
+                    date: { en: '(Jan 2025 - Apr 2025)', ar: '(يناير 2025 - أبريل 2025)', ja: '(2025年1月 - 2025年4月)' },
+                    location: { en: 'Personal Project', ar: 'مشروع شخصي', ja: '個人プロジェクト' },
+                    description: { en: 'led a comprehensive SCM simulation in Python (OOP), personally writing about 60% of the main code. I integrated a local LLM for intelligent insights, review analysis, and marketing content generation. The project also includes a Tkinter GUI, SQLite, and Proxy design pattern. My role combined leadership with significant technical and AI contributions.', ar: 'قمت بقيادة محاكاة شاملة لإدارة سلسلة التوريد في بايثون (OOP)، وكتابة حوالي 60٪ من الكود الرئيسي بنفسي. قمت بدمج نموذج لغة كبير محلي للحصول على رؤى ذكية وتحليل المراجعات وإنشاء محتوى تسويقي. يتضمن المشروع أيضًا واجهة مستخدم رسومية Tkinter و SQLite ونمط تصميم الوكيل. جمع دوري بين القيادة والمساهمات الفنية والذكاء الاصطناعي الكبيرة.', ja: 'Python（OOP）で包括的なSCMシミュレーションを主導し、メインコードの約60％を個人的に記述しました。インテリジェントな洞察、レビュー分析、マーケティングコンテンツ生成のためにローカルLLMを統合しました。このプロジェクトには、Tkinter GUI、SQLite、およびプロキシ設計パターンも含まれています。私の役割は、リーダーシップと重要な技術的およびAIへの貢献を組み合わせたものでした。' }
+                },
+                { 
+                    icon: 'fa-brain',
+                    title: { en: 'AI Training Intern', ar: 'متدرب تدريب الذكاء الاصطناعي', ja: 'AIトレーニングインターン' },
+                    date: { en: '(Summer 2024)', ar: '(صيف 2024)', ja: '(2024年夏)' },
+                    location: { en: 'Shabab Mobtakeroon', ar: 'شباب مبتكرون', ja: 'シャバブ・モブタケルーン' },
+                    description: { en: 'Trained an image classification model using Python and Google Colab, achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.', ar: 'دربت نموذجًا لتصنيف الصور باستخدام بايثون و Google Colab، وحققت دقة 92٪ على مجموعة بيانات Kaggle من خلال تحليل الأخطاء الدقيق وضبط الأداء.', ja: 'PythonとGoogle Colabを使用して画像分類モデルをトレーニングし、厳密なエラー分析とパフォーマンスチューニングを通じてKaggleデータセットで92％の精度を達成しました。' }
+                }
+            ];
+            
+            const educationData = [
+                 { 
+                    icon: 'fa-graduation-cap',
+                    title: { en: 'Bachelor of Computer Science', ar: 'بكالوريوس في علوم الحاسوب', ja: 'コンピューターサイエンス学士' },
+                    date: { en: '(2024 - 2028)', ar: '(2024 - 2028)', ja: '(2024年 - 2028年)' },
+                    location: { en: 'E-JUST University', ar: 'الجامعة المصرية اليابانية للعلوم والتكنولوجيا', ja: 'E-JUST大学' }
+                },
+                 { 
+                    icon: 'fa-school',
+                    title: { en: 'High School Diploma', ar: 'شهادة الثانوية العامة', ja: '高等学校卒業証書' },
+                    date: { en: '(2010 - 2024)', ar: '(2010 - 2024)', ja: '(2010年 - 2024年)' },
+                    location: { en: 'Victoria College', ar: 'كلية فيكتوريا', ja: 'ビクトリアカレッジ' }
+                },
+                { 
+                    icon: 'fa-language',
+                    title: { en: 'English Conversation Advanced 3', ar: 'محادثة إنجليزية متقدمة 3', ja: '英会話上級3' },
+                    date: { en: '(2022 - 2023)', ar: '(2022 - 2023)', ja: '(2022年 - 2023年)' },
+                    location: { en: 'American Institute', ar: 'المعهد الأمريكي', ja: 'アメリカンインスティテュート' }
+                }
+            ];
+            
+            let currentLang = 'en';
+            let typeTimeout; 
+            let scrollObserver;
 
-            // --- FLOATING SQUARES BACKGROUND ANIMATION ---
+            // --- TRANSLATION & RENDERING LOGIC ---
+            function setLanguage(lang) {
+                if (!translations[lang]) return;
+                currentLang = lang;
+                document.documentElement.lang = lang;
+                document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    const key = el.dataset.translate;
+                    if (translations[lang][key]) {
+                        el.textContent = translations[lang][key];
+                    }
+                });
+
+                renderProjects();
+                renderExperienceAndEducation();
+                initTypingEffect();
+                initScrollReveal(); 
+            }
+
+            // --- UI INITIALIZATION FUNCTIONS ---
+            function initLanguageSelector() {
+                const langButton = document.getElementById('language-selector-button');
+                const langPanel = document.getElementById('language-panel');
+                if (!langButton || !langPanel) return;
+                const hidePanel = () => langPanel.classList.remove('active');
+                const showPanel = () => {
+                    const buttonRect = langButton.getBoundingClientRect();
+                    langPanel.style.top = `${buttonRect.bottom + 8}px`; 
+                    langPanel.style.left = `${buttonRect.right - langPanel.offsetWidth}px`; 
+                    langPanel.classList.add('active');
+                };
+                langButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    langPanel.classList.contains('active') ? hidePanel() : showPanel();
+                });
+                langPanel.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'A' && e.target.dataset.lang) {
+                        e.preventDefault();
+                        setLanguage(e.target.dataset.lang);
+                        hidePanel();
+                    }
+                });
+                document.addEventListener('click', (e) => {
+                    if (langPanel.classList.contains('active') && !langButton.contains(e.target)) {
+                        hidePanel();
+                    }
+                });
+                window.addEventListener('scroll', () => {
+                     if (langPanel.classList.contains('active')) hidePanel();
+                }, { passive: true });
+            }
+
             function initParticleCanvas() {
                 const canvas = document.getElementById('particle-canvas');
                 if (!canvas) return;
                 const ctx = canvas.getContext('2d');
                 let particles = [];
-
                 const setCanvasSize = () => {
                     canvas.width = window.innerWidth;
                     canvas.height = window.innerHeight;
                 };
-
                 class Particle {
                     constructor() {
                         this.x = Math.random() * canvas.width;
                         this.y = Math.random() * canvas.height;
                         this.size = Math.random() * 15 + 5;
                         this.speedX = Math.random() * 0.4 - 0.2;
-                        this.speedY = Math.random() * -1 - 0.2; // Move upwards
-                        this.color = `rgba(59, 130, 246, ${Math.random() * 0.4 + 0.1})`; // Tailwind's blue-500 with random opacity
+                        this.speedY = Math.random() * -1 - 0.2;
+                        this.color = `rgba(59, 130, 246, ${Math.random() * 0.4 + 0.1})`;
                         this.rotation = Math.random() * Math.PI * 2;
                         this.rotationSpeed = (Math.random() - 0.5) * 0.02;
                     }
@@ -382,18 +564,12 @@
                         this.x += this.speedX;
                         this.y += this.speedY;
                         this.rotation += this.rotationSpeed;
-
-                        // If particle goes off top of the screen, reset it to the bottom
                         if (this.y < -this.size) {
                             this.y = canvas.height + this.size;
                             this.x = Math.random() * canvas.width;
                         }
-                         // If particle goes off the side, make it wrap around
-                        if (this.x < -this.size) {
-                            this.x = canvas.width + this.size;
-                        } else if (this.x > canvas.width + this.size) {
-                            this.x = -this.size;
-                        }
+                        if (this.x < -this.size) this.x = canvas.width + this.size;
+                        else if (this.x > canvas.width + this.size) this.x = -this.size;
                     }
                     draw() {
                         ctx.save();
@@ -401,136 +577,121 @@
                         ctx.lineWidth = 1.5;
                         ctx.translate(this.x, this.y);
                         ctx.rotate(this.rotation);
-                        // Draw a square centered on the particle's x/y
                         ctx.strokeRect(-this.size / 2, -this.size / 2, this.size, this.size);
                         ctx.restore();
                     }
                 }
-
                 function initParticles() {
                     particles = [];
                     const particleCount = window.innerWidth < 768 ? 15 : 25;
-                    for (let i = 0; i < particleCount; i++) {
-                        particles.push(new Particle());
-                    }
+                    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
                 }
-
                 function animate() {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    particles.forEach(p => {
-                        p.update();
-                        p.draw();
-                    });
+                    particles.forEach(p => { p.update(); p.draw(); });
                     requestAnimationFrame(animate);
                 }
-
                 setCanvasSize();
                 initParticles();
                 animate();
-
-                window.addEventListener('resize', () => {
-                    setCanvasSize();
-                    initParticles();
-                });
+                window.addEventListener('resize', () => { setCanvasSize(); initParticles(); });
             }
-
-            // --- PROJECTS RENDERING AND MODAL ---
+            
             function renderProjects() {
                 const container = document.getElementById('projects-container');
                 if (!container) return;
-                container.innerHTML = projects.map(project => {
+                container.innerHTML = projectsData.map(project => {
                     const tagsHTML = project.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-                    
-                    let cardWrapperStart;
-                    let buttonHTML;
-                    
-                    // If the project is marked as static (longDescription is 'none'), make it non-interactive.
-                    if (project.longDescription === 'none') {
-                        cardWrapperStart = `<div class="glass-effect p-6 flex flex-col h-full reveal-element">`;
-                        buttonHTML = ''; // No button
-                    } else if (project.link) {
-                        // Interactive card with a link gets a "View Details" button.
-                        cardWrapperStart = `<div class="glass-effect p-6 interactive-card flex flex-col h-full reveal-element">`;
-                        buttonHTML = `
-                            <button onclick="openModal('${project.id}')" class="text-blue-400 hover:text-blue-300 font-semibold self-start text-left mt-auto pt-4 group transition-colors">
-                                View Details <i class="fas fa-arrow-right ml-1 transform transition-transform duration-300 group-hover:translate-x-1"></i>
-                            </button>
-                        `;
-                    } else {
-                        // Interactive card without a link becomes fully clickable.
-                        cardWrapperStart = `<div onclick="openModal('${project.id}')" class="glass-effect p-6 interactive-card flex flex-col h-full reveal-element cursor-pointer">`;
-                        buttonHTML = ''; // No button needed as the card is clickable
-                    }
-
+                    const buttonHTML = project.link && project.longDescription.en !== 'none' ? `
+                        <button onclick="openModal('${project.id}')" class="text-blue-400 hover:text-blue-300 font-semibold self-start text-left mt-auto pt-4 group transition-colors">
+                            ${translations[currentLang].view_details} <i class="fas fa-arrow-right ml-1 transform transition-transform duration-300 group-hover:translate-x-1"></i>
+                        </button>` : '';
                     return `
-                        ${cardWrapperStart}
+                        <div class="glass-effect p-6 interactive-card flex flex-col h-full reveal-element">
                             <div class="flex-grow">
-                                <h3 class="text-2xl font-bold text-white mb-3">${project.title}</h3>
-                                <p class="text-gray-400 mb-4">${project.description}</p>
-                                <div class="mb-4 flex flex-wrap gap-2">
-                                    ${tagsHTML}
-                                </div>
+                                <h3 class="text-2xl font-bold text-white mb-3">${project.title[currentLang]}</h3>
+                                <p class="text-gray-400 mb-4">${project.description[currentLang]}</p>
+                                <div class="mb-4 flex flex-wrap gap-2">${tagsHTML}</div>
                             </div>
                             ${buttonHTML}
-                        </div>
-                    `;
+                        </div>`;
                 }).join('');
             }
             
-            const modal = document.getElementById('project-modal');
-            window.openModal = (id) => {
-                const p = projects.find(p => p.id === id);
-                if (!p || !modal) return;
-                modal.querySelector('#modal-title').innerText = p.title;
-                modal.querySelector('#modal-description').innerText = p.longDescription;
-                modal.querySelector('#modal-img').src = p.imageUrl;
-                modal.querySelector('#modal-img').alt = `Screenshot of ${p.title}`;
-                const link = modal.querySelector('#modal-link');
-                
-                if (p.link) {
-                    link.style.display = 'inline-block';
-                    link.href = p.link;
-                } else {
-                    link.style.display = 'none';
-                }
+            function renderExperienceAndEducation() {
+                const expContainer = document.getElementById('experience-container');
+                const eduContainer = document.getElementById('education-container');
+                if(!expContainer || !eduContainer) return;
 
-                modal.querySelector('#modal-tags').innerHTML = p.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                expContainer.innerHTML = experienceData.map(item => `
+                    <div class="reveal-element flex">
+                        <div class="mr-6 flex-shrink-0"><i class="fas ${item.icon} text-blue-400 text-2xl mt-1"></i></div>
+                        <div>
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
+                                <p class="font-semibold text-white text-lg">${item.title[currentLang]} <span class="text-gray-400 font-normal">${item.date[currentLang]}</span></p>
+                                <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">${item.location[currentLang]}</p>
+                            </div>
+                            <p class="text-gray-400">${item.description[currentLang]}</p>
+                        </div>
+                    </div>
+                `).join('');
+                
+                eduContainer.innerHTML = educationData.map(item => `
+                     <div class="reveal-element flex">
+                        <div class="mr-6 flex-shrink-0"><i class="fas ${item.icon} text-blue-400 text-2xl mt-1"></i></div>
+                        <div>
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
+                                <p class="font-semibold text-white text-lg">${item.title[currentLang]} <span class="text-gray-400 font-normal">${item.date[currentLang]}</span></p>
+                                <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">${item.location[currentLang]}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            window.openModal = (id) => {
+                const p = projectsData.find(p => p.id === id);
+                if (!p) return;
+                const modalContainer = document.getElementById('project-modal');
+                const modalHTML = `
+                    <div class="modal-content relative">
+                        <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-4xl leading-none transition-transform duration-200 hover:scale-125" aria-label="Close modal">&times;</button>
+                        <img src="${p.imageUrl}" alt="Project Image" class="w-full h-64 object-cover rounded-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1f2937/d1d5db?text=Image+Error';">
+                        <h3 class="text-3xl font-bold text-white mb-2">${p.title[currentLang]}</h3>
+                        <div class="mb-4 flex flex-wrap gap-2">${p.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+                        <p class="text-gray-300 mb-6">${p.longDescription[currentLang]}</p>
+                        ${p.link ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                            ${translations[currentLang].modal_view_code} <i class="fab fa-github ml-2"></i>
+                        </a>` : ''}
+                    </div>`;
+                modalContainer.innerHTML = modalHTML;
+                modalContainer.classList.add('active');
+                document.body.style.overflow = 'hidden';
             };
             
             window.closeModal = () => {
+                const modal = document.getElementById('project-modal');
                 if(modal) { 
                     modal.classList.remove('active'); 
                     document.body.style.overflow = ''; 
+                    modal.innerHTML = '';
                 }
             };
-
-            // Close modal on overlay click or escape key
-            if (modal) {
-                modal.addEventListener('click', e => (e.target === modal) && closeModal());
-            }
+            
+            const modal = document.getElementById('project-modal');
+            if (modal) modal.addEventListener('click', e => (e.currentTarget === e.target) && closeModal());
             document.addEventListener('keydown', e => (e.key === "Escape") && closeModal());
             
-            // --- MOBILE MENU ---
             function initMobileMenu() {
                 const btn = document.getElementById('mobile-menu-button');
                 const menu = document.getElementById('mobile-menu');
                 if (!btn || !menu) return;
-
                 btn.addEventListener('click', () => {
                     menu.classList.toggle('hidden');
-                    // Toggle icon
                     const icon = btn.querySelector('i');
-                    if (menu.classList.contains('hidden')) {
-                        icon.classList.remove('fa-times');
-                        icon.classList.add('fa-bars');
-                    } else {
-                        icon.classList.remove('fa-bars');
-                        icon.classList.add('fa-times');
-                    }
+                    icon.classList.toggle('fa-bars');
+                    icon.classList.toggle('fa-times');
                 });
-                // Close menu when a link is clicked
                 menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
                     menu.classList.add('hidden');
                     const icon = btn.querySelector('i');
@@ -539,54 +700,53 @@
                 }));
             }
             
-            // --- TYPING EFFECT ---
             function initTypingEffect() {
+                clearTimeout(typeTimeout);
                 const subtitleEl = document.getElementById('typing-subtitle');
                 const cursorEl = document.querySelector('.typing-cursor');
                 if (!subtitleEl || !cursorEl) return;
-
-                const text = "Computer Science Student";
+                const text = translations[currentLang].hero_subtitle;
                 let index = 0;
-                
+                subtitleEl.innerHTML = '';
+                cursorEl.style.display = 'inline-block';
                 function type() {
                     if (index < text.length) {
                         subtitleEl.textContent += text.charAt(index);
                         index++;
-                        setTimeout(type, 100);
+                        typeTimeout = setTimeout(type, 100);
                     } else {
-                        // After typing, remove the cursor
-                        if (cursorEl) {
-                            cursorEl.style.display = 'none';
-                        }
+                        cursorEl.style.display = 'none';
                     }
                 }
-                setTimeout(type, 500); // Initial delay
+                typeTimeout = setTimeout(type, 500);
             }
             
-            // --- SCROLL REVEAL ---
             function initScrollReveal() {
                 const els = document.querySelectorAll('.reveal-element');
                 if (!('IntersectionObserver' in window)) {
                     els.forEach(el => el.classList.add('visible'));
-                    return; // Fallback for older browsers
+                    return;
                 }
-                const observer = new IntersectionObserver((entries) => {
+                if (scrollObserver) {
+                    scrollObserver.disconnect();
+                }
+                scrollObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             entry.target.classList.add('visible');
-                            observer.unobserve(entry.target); // Animate only once
+                            scrollObserver.unobserve(entry.target);
                         }
                     });
                 }, { threshold: 0.1 });
-                els.forEach(el => observer.observe(el));
+
+                els.forEach(el => scrollObserver.observe(el));
             }
             
-            // --- NAV HIGHLIGHTING ON SCROLL ---
             function initNavHighlightingOnScroll() {
                 const sections = document.querySelectorAll('section[id], footer[id]');
                 const navLinks = document.querySelectorAll('#desktop-nav a');
-                 if (!('IntersectionObserver' in window)) return;
-                 const observer = new IntersectionObserver(entries => {
+                if (!('IntersectionObserver' in window)) return;
+                const observer = new IntersectionObserver(entries => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             navLinks.forEach(link => {
@@ -598,8 +758,6 @@
                 sections.forEach(sec => observer.observe(sec));
             }
 
-            // --- INTERACTIVE CARD TILT ---
-            // This function now only affects cards with the 'interactive-card' class
             function initInteractiveCards() {
                 document.querySelectorAll('.interactive-card').forEach(card => {
                     card.addEventListener('mousemove', e => {
@@ -615,6 +773,14 @@
                     });
                 });
             }
+            
+            // --- FINAL INITIALIZATION ---
+            initMobileMenu();
+            initNavHighlightingOnScroll();
+            initInteractiveCards();
+            initParticleCanvas();
+            initLanguageSelector();
+            setLanguage('en'); // Set default language, which also calls all render and reveal functions
         });
     </script>
 </body>
