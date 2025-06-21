@@ -721,19 +721,22 @@
                     icon.classList.toggle('fa-times');
                 });
                 
-                // Handle all clicks inside the mobile menu
-                menu.addEventListener('click', (e) => {
-                    // If a nav link is clicked
-                    if (e.target.matches('a[href^="#"]')) {
+                // Add listeners to nav links to close the menu
+                menu.querySelectorAll('a[href^="#"]').forEach(link => {
+                    link.addEventListener('click', () => {
                         closeMenu();
-                    }
-                    // If a language link is clicked
-                    else if (e.target.matches('a[data-lang]')) {
+                    });
+                });
+
+                // Add separate listeners for language links
+                menu.querySelectorAll('a[data-lang]').forEach(link => {
+                    link.addEventListener('click', (e) => {
                         e.preventDefault();
-                        const lang = e.target.dataset.lang;
+                        e.stopPropagation();
+                        const lang = e.currentTarget.dataset.lang;
                         setLanguage(lang);
                         closeMenu();
-                    }
+                    });
                 });
             }
             
