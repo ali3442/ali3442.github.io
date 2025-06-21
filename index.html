@@ -131,15 +131,15 @@
 
         /* Typing cursor effect */
         .typing-cursor {
-             display: inline-block;
-             width: 2px;
-             height: 1.5rem;
-             background-color: #3b82f6;
-             animation: blink 0.7s infinite;
+            display: inline-block;
+            width: 2px;
+            height: 1.5rem;
+            background-color: #3b82f6;
+            animation: blink 0.7s infinite;
         }
         @keyframes blink {
-             0%, 100% { opacity: 1; }
-             50% { opacity: 0; }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         /* Contact Icon Animation */
@@ -224,48 +224,83 @@
             </div>
         </section>
 
-        <!-- Experience Section -->
+        <!-- Experience & Education Section -->
         <section id="experience" class="section bg-gray-900/50">
             <div class="container mx-auto">
-                 <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element">Experience & Education</h2>
-                <div class="max-w-3xl mx-auto">
-                    <div class="relative border-l-2 border-blue-500/50 pl-10 space-y-12">
-                         <!-- Timeline Item: AI Internship -->
-                        <div class="relative reveal-element">
-                            <div class="absolute -left-[46px] top-1.5 h-8 w-8 rounded-full bg-blue-500 border-4 border-gray-900 flex items-center justify-center"><i class="fas fa-briefcase text-white text-sm"></i></div>
-                            <p class="text-sm text-gray-400">Summer 2024</p>
-                            <h3 class="text-xl font-semibold text-white">AI Training Intern</h3>
-                            <p class="text-blue-300">Shabab Mobtakeroon</p>
-                            <p class="mt-2 text-gray-400">Trained an image classification model using Python and Google Colab, achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.</p>
+                <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element">Experience & Education</h2>
+                <div class="max-w-4xl mx-auto">
+                    <!-- Experience -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold text-white mb-8 reveal-element border-b-2 border-blue-500/50 pb-3">Experience</h3>
+                        <div class="space-y-8">
+                            <!-- Item 1: SCM Project -->
+                            <div class="reveal-element flex">
+                                <div class="mr-6 flex-shrink-0">
+                                    <i class="fas fa-code-branch text-blue-400 text-2xl mt-1"></i>
+                                </div>
+                                <div>
+                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
+                                        <p class="font-semibold text-white text-lg">Supply Chain Management Project <span class="text-gray-400 font-normal">(Jan 2025 - Apr 2025)</span></p>
+                                        <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">Personal Project</p>
+                                    </div>
+                                    <p class="text-gray-400">Developed a comprehensive SCM simulation in Python using OOP, integrating a local LLM to provide intelligent insights, analyze customer reviews, and generate dynamic marketing content.</p>
+                                </div>
+                            </div>
+                            <!-- Item 2: AI Intern -->
+                            <div class="reveal-element flex">
+                                 <div class="mr-6 flex-shrink-0">
+                                    <i class="fas fa-brain text-blue-400 text-2xl mt-1"></i>
+                                </div>
+                                <div>
+                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-1">
+                                        <p class="font-semibold text-white text-lg">AI Training Intern <span class="text-gray-400 font-normal">(Summer 2024)</span></p>
+                                        <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">Shabab Mobtakeroon</p>
+                                    </div>
+                                    <p class="text-gray-400">Trained an image classification model using Python and Google Colab, achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.</p>
+                                </div>
+                            </div>
                         </div>
-                        <!-- Timeline Item: SCM Project -->
-                        <div class="relative reveal-element">
-                            <div class="absolute -left-[46px] top-1.5 h-8 w-8 rounded-full bg-blue-500 border-4 border-gray-900 flex items-center justify-center"><i class="fas fa-code-branch text-white text-sm"></i></div>
-                            <p class="text-sm text-gray-400">Jan 2024 - Apr 2024</p>
-                            <h3 class="text-xl font-semibold text-white">Supply Chain Management Project</h3>
-                            <p class="text-blue-300">Personal Project</p>
-                            <p class="mt-2 text-gray-400">Developed a comprehensive SCM simulation in Python using OOP, integrating a local LLM to provide intelligent insights, analyze customer reviews, and generate dynamic marketing content.</p>
-                        </div>
-                        <!-- Timeline Item: University -->
-                        <div class="relative reveal-element">
-                            <div class="absolute -left-[46px] top-1.5 h-8 w-8 rounded-full bg-blue-500 border-4 border-gray-900 flex items-center justify-center"><i class="fas fa-graduation-cap text-white text-sm"></i></div>
-                            <p class="text-sm text-gray-400">2021 - 2025</p>
-                            <h3 class="text-xl font-semibold text-white">Bachelor of Computer Science</h3>
-                            <p class="text-blue-300">E-JUST University</p>
-                        </div>
-                        <!-- Timeline Item: English Course -->
-                         <div class="relative reveal-element">
-                             <div class="absolute -left-[46px] top-1.5 h-8 w-8 rounded-full bg-blue-500 border-4 border-gray-900 flex items-center justify-center"><i class="fas fa-language text-white text-sm"></i></div>
-                            <p class="text-sm text-gray-400">2022 - 2023</p>
-                            <h3 class="text-xl font-semibold text-white">English Conversation Advanced 3</h3>
-                            <p class="text-blue-300">American Institute</p>
-                        </div>
-                         <!-- Timeline Item: High School -->
-                        <div class="relative reveal-element">
-                             <div class="absolute -left-[46px] top-1.5 h-8 w-8 rounded-full bg-blue-500 border-4 border-gray-900 flex items-center justify-center"><i class="fas fa-school text-white text-sm"></i></div>
-                            <p class="text-sm text-gray-400">2017 - 2021</p>
-                            <h3 class="text-xl font-semibold text-white">High School Diploma</h3>
-                            <p class="text-blue-300">Victoria College</p>
+                    </div>
+                    <!-- Education -->
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-8 reveal-element border-b-2 border-blue-500/50 pb-3">Education</h3>
+                         <div class="space-y-8">
+                            <!-- Item 1: University -->
+                             <div class="reveal-element flex">
+                                <div class="mr-6 flex-shrink-0">
+                                   <i class="fas fa-graduation-cap text-blue-400 text-2xl mt-1"></i>
+                                </div>
+                                <div>
+                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
+                                        <p class="font-semibold text-white text-lg">Bachelor of Computer Science <span class="text-gray-400 font-normal">(2024 - 2028)</span></p>
+                                        <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">E-JUST University</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Item 2: High School -->
+                             <div class="reveal-element flex">
+                                <div class="mr-6 flex-shrink-0">
+                                   <i class="fas fa-school text-blue-400 text-2xl mt-1"></i>
+                                </div>
+                                <div>
+                                   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
+                                        <p class="font-semibold text-white text-lg">High School Diploma <span class="text-gray-400 font-normal">(2010 - 2024)</span></p>
+                                        <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">Victoria College</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Item 3: English Course -->
+                             <div class="reveal-element flex">
+                                <div class="mr-6 flex-shrink-0">
+                                   <i class="fas fa-language text-blue-400 text-2xl mt-1"></i>
+                                </div>
+                                <div>
+                                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-baseline">
+                                        <p class="font-semibold text-white text-lg">English Conversation Advanced 3 <span class="text-gray-400 font-normal">(2022 - 2023)</span></p>
+                                        <p class="text-blue-300 text-base flex-shrink-0 sm:ml-4">American Institute</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -275,7 +310,7 @@
     </main>
 
     <!-- Footer -->
-    <footer id="contact" class="bg-gray-900 text-white">
+    <footer id="contact" class="bg-gray-900 text-white section">
         <div class="container mx-auto py-12 px-6 text-center">
             <h2 class="text-2xl font-bold mb-4 reveal-element">Get In Touch</h2>
             <p class="text-gray-400 mb-8 max-w-md mx-auto reveal-element">I'm always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out!</p>
@@ -308,7 +343,7 @@
             // --- DATA ---
             const projects = [
                 { id: 'ai-model', title: "AI Image Classification Model", description: "Trained an image classification model achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.",longDescription: 'none', tags: ["Python", "Google Colab", "Kaggle","model training"], link: null, imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=Image+Classification" },
-                { id: 'scm-sim', title: "Supply Chain Management (SCM) Simulation", description: "Built a comprehensive SCM simulation using OOP in Python, featuring an integrated local LLM and a Tkinter GUI.", longDescription: "This project is a complete, object-oriented simulation of a supply chain. It models the flow from suppliers to customers using Python classes. Key features include a Tkinter GUI, SQLite for data persistence, and a local LLM to provide AI-powered insights, such as generating marketing slogans and analyzing customer reviews. It also implements the Proxy design pattern for user role access control.", tags: ["Python", "OOP", "LLM", "Tkinter", "SQLite", "Design Patterns"], link: "https://github.com/ali3442/SCM-Simulation-Project", imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=SCM+Simulation" }
+                { id: 'scm-sim', title: "Supply Chain Management (SCM) Simulation", description: "Led the development of a comprehensive Supply Chain Management (SCM) simulation in Python, built with Object-Oriented Programming (OOP). As team leader, I managed the entire team, and was personally responsible for writing about 60% of the main code classes. On top of that, I specifically integrated the local Large Language Model (LLM). This AI component now provides intelligent insights, analyzes customer reviews, and generates dynamic marketing content within the simulation. My role encompassed both leadership and direct, substantial technical contribution, bringing a powerful, intelligent layer to our project." }
             ];
 
             // --- INITIALIZATION ---
@@ -409,18 +444,22 @@
                     let cardWrapperStart;
                     let buttonHTML;
                     
-                    // If the project doesn't have a link (like the AI model), make the whole card clickable.
-                    // Otherwise, show the "View Details" button.
-                    if (!project.link) {
-                        cardWrapperStart = `<div onclick="openModal('${project.id}')" class="glass-effect p-6 interactive-card flex flex-col h-full reveal-element cursor-pointer">`;
-                        buttonHTML = ''; // No button needed as the card is clickable
-                    } else {
+                    // If the project is marked as static (longDescription is 'none'), make it non-interactive.
+                    if (project.longDescription === 'none') {
+                        cardWrapperStart = `<div class="glass-effect p-6 flex flex-col h-full reveal-element">`;
+                        buttonHTML = ''; // No button
+                    } else if (project.link) {
+                        // Interactive card with a link gets a "View Details" button.
                         cardWrapperStart = `<div class="glass-effect p-6 interactive-card flex flex-col h-full reveal-element">`;
                         buttonHTML = `
                             <button onclick="openModal('${project.id}')" class="text-blue-400 hover:text-blue-300 font-semibold self-start text-left mt-auto pt-4 group transition-colors">
                                 View Details <i class="fas fa-arrow-right ml-1 transform transition-transform duration-300 group-hover:translate-x-1"></i>
                             </button>
                         `;
+                    } else {
+                        // Interactive card without a link becomes fully clickable.
+                        cardWrapperStart = `<div onclick="openModal('${project.id}')" class="glass-effect p-6 interactive-card flex flex-col h-full reveal-element cursor-pointer">`;
+                        buttonHTML = ''; // No button needed as the card is clickable
                     }
 
                     return `
@@ -544,7 +583,7 @@
             
             // --- NAV HIGHLIGHTING ON SCROLL ---
             function initNavHighlightingOnScroll() {
-                const sections = document.querySelectorAll('section[id]');
+                const sections = document.querySelectorAll('section[id], footer[id]');
                 const navLinks = document.querySelectorAll('#desktop-nav a');
                  if (!('IntersectionObserver' in window)) return;
                  const observer = new IntersectionObserver(entries => {
@@ -555,11 +594,12 @@
                             });
                         }
                     });
-                }, { rootMargin: '-40% 0px -40% 0px', threshold: 0.1 }); 
+                }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.1 }); 
                 sections.forEach(sec => observer.observe(sec));
             }
 
             // --- INTERACTIVE CARD TILT ---
+            // This function now only affects cards with the 'interactive-card' class
             function initInteractiveCards() {
                 document.querySelectorAll('.interactive-card').forEach(card => {
                     card.addEventListener('mousemove', e => {
