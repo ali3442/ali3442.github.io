@@ -138,8 +138,8 @@
              animation: blink 0.7s infinite;
         }
         @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+             0%, 100% { opacity: 1; }
+             50% { opacity: 0; }
         }
 
         /* Contact Icon Animation */
@@ -307,8 +307,8 @@
 
             // --- DATA ---
             const projects = [
-                { id: 'scm-sim', title: "Supply Chain Management (SCM) Simulation", description: "Built a comprehensive SCM simulation using OOP in Python, featuring an integrated local LLM and a Tkinter GUI.", longDescription: "This project is a complete, object-oriented simulation of a supply chain. It models the flow from suppliers to customers using Python classes. Key features include a Tkinter GUI, SQLite for data persistence, and a local LLM to provide AI-powered insights, such as generating marketing slogans and analyzing customer reviews. It also implements the Proxy design pattern for user role access control.", tags: ["Python", "OOP", "LLM", "Tkinter", "SQLite", "Design Patterns"], link: "https://github.com/ali3442/SCM-Simulation-Project", imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=SCM+Simulation" },
-                { id: 'ai-model', title: "AI Image Classification Model", description: "Developed an image classification model achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.", longDescription: "This project showcases building and fine-tuning a deep learning model for image classification. By leveraging Python and popular libraries within Google Colab, I processed a large dataset, applied data augmentation, trained a CNN, and systematically analyzed results to achieve high accuracy. This demonstrates a strong understanding of the end-to-end machine learning workflow.", tags: ["Python", "Google Colab", "Kaggle", "AI", "Deep Learning"], link: null, imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=Image+Classification" }
+                { id: 'ai-model', title: "AI Image Classification Model", description: "Developed an image classification model achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.", longDescription: "This project showcases building and fine-tuning a deep learning model for image classification. By leveraging Python and popular libraries within Google Colab, I processed a large dataset, applied data augmentation, trained a CNN, and systematically analyzed results to achieve high accuracy. This demonstrates a strong understanding of the end-to-end machine learning workflow.", tags: ["Python", "Google Colab", "Kaggle", "AI", "Deep Learning"], link: null, imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=Image+Classification" },
+                { id: 'scm-sim', title: "Supply Chain Management (SCM) Simulation", description: "Built a comprehensive SCM simulation using OOP in Python, featuring an integrated local LLM and a Tkinter GUI.", longDescription: "This project is a complete, object-oriented simulation of a supply chain. It models the flow from suppliers to customers using Python classes. Key features include a Tkinter GUI, SQLite for data persistence, and a local LLM to provide AI-powered insights, such as generating marketing slogans and analyzing customer reviews. It also implements the Proxy design pattern for user role access control.", tags: ["Python", "OOP", "LLM", "Tkinter", "SQLite", "Design Patterns"], link: "https://github.com/ali3442/SCM-Simulation-Project", imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=SCM+Simulation" }
             ];
 
             // --- INITIALIZATION ---
@@ -406,14 +406,25 @@
                 container.innerHTML = projects.map(project => {
                     const tagsHTML = project.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
                     
-                    const buttonHTML = `
-                        <button onclick="openModal('${project.id}')" class="text-blue-400 hover:text-blue-300 font-semibold self-start text-left mt-auto pt-4 group transition-colors">
-                            View Details <i class="fas fa-arrow-right ml-1 transform transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </button>
-                    `;
+                    let cardWrapperStart;
+                    let buttonHTML;
+                    
+                    // If the project doesn't have a link (like the AI model), make the whole card clickable.
+                    // Otherwise, show the "View Details" button.
+                    if (!project.link) {
+                        cardWrapperStart = `<div onclick="openModal('${project.id}')" class="glass-effect p-6 interactive-card flex flex-col h-full reveal-element cursor-pointer">`;
+                        buttonHTML = ''; // No button needed as the card is clickable
+                    } else {
+                        cardWrapperStart = `<div class="glass-effect p-6 interactive-card flex flex-col h-full reveal-element">`;
+                        buttonHTML = `
+                            <button onclick="openModal('${project.id}')" class="text-blue-400 hover:text-blue-300 font-semibold self-start text-left mt-auto pt-4 group transition-colors">
+                                View Details <i class="fas fa-arrow-right ml-1 transform transition-transform duration-300 group-hover:translate-x-1"></i>
+                            </button>
+                        `;
+                    }
 
                     return `
-                        <div class="glass-effect p-6 interactive-card flex flex-col h-full reveal-element">
+                        ${cardWrapperStart}
                             <div class="flex-grow">
                                 <h3 class="text-2xl font-bold text-white mb-3">${project.title}</h3>
                                 <p class="text-gray-400 mb-4">${project.description}</p>
