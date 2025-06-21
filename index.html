@@ -230,8 +230,13 @@
             <a href="#about" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_about">About</a>
             <a href="#skills" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_skills">Skills</a>
             <a href="#projects" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_projects">Projects</a>
-            <a href="#experience" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_experience">Experience</a>
+            <a href="#experience" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_experience">Experience & Education</a>
             <a href="#contact" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700" data-translate="nav_contact">Contact</a>
+            <div class="border-t border-gray-700 my-2"></div>
+            <div class="px-6 py-2 text-sm text-gray-400" data-translate="language_select_label">Language</div>
+            <a href="#" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700" data-lang="en">English</a>
+            <a href="#" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700" data-lang="ar">Arabic</a>
+            <a href="#" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-700" data-lang="ja">Japanese</a>
         </div>
     </header>
 
@@ -332,7 +337,7 @@
                     nav_about: "About",
                     nav_skills: "Skills",
                     nav_projects: "Projects",
-                    nav_experience: "Experience",
+                    nav_experience: "Experience & Education",
                     nav_contact: "Contact",
                     hero_name: "Ali Kassem",
                     hero_subtitle: "Computer Science Student",
@@ -352,7 +357,8 @@
                     contact_title: "Get In Touch",
                     contact_desc: "I'm always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out!",
                     footer_copy: "© 2025 Ali Kassem. All rights reserved.",
-                    modal_view_code: "View Code on GitHub"
+                    modal_view_code: "View Code on GitHub",
+                    language_select_label: "Language"
                 },
                 ar: {
                     name_logo: "علي قاسم",
@@ -379,7 +385,8 @@
                     contact_title: "تواصل معي",
                     contact_desc: "أنا دائما منفتح لمناقشة المشاريع الجديدة أو الأفكار الإبداعية أو الفرص. لا تتردد في التواصل!",
                     footer_copy: "© 2025 علي قاسم. جميع الحقوق محفوظة.",
-                    modal_view_code: "عرض الكود على GitHub"
+                    modal_view_code: "عرض الكود على GitHub",
+                    language_select_label: "اللغة"
                 },
                 ja: {
                     name_logo: "アリ・カセム",
@@ -406,7 +413,8 @@
                     contact_title: "お問い合わせ",
                     contact_desc: "新しいプロジェクト、創造的なアイデア、または機会についての議論をいつでも歓迎します。お気軽にご連絡ください！",
                     footer_copy: "© 2025 アリ・カセム. 全著作権所有.",
-                    modal_view_code: "GitHubでコードを見る"
+                    modal_view_code: "GitHubでコードを見る",
+                    language_select_label: "言語"
                 }
             };
             
@@ -697,18 +705,35 @@
                 const btn = document.getElementById('mobile-menu-button');
                 const menu = document.getElementById('mobile-menu');
                 if (!btn || !menu) return;
+
+                const closeMenu = () => {
+                    menu.classList.add('hidden');
+                    const icon = btn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                };
+
                 btn.addEventListener('click', () => {
                     menu.classList.toggle('hidden');
                     const icon = btn.querySelector('i');
                     icon.classList.toggle('fa-bars');
                     icon.classList.toggle('fa-times');
                 });
-                menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-                    menu.classList.add('hidden');
-                    const icon = btn.querySelector('i');
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }));
+                
+                // Handle all clicks inside the mobile menu
+                menu.addEventListener('click', (e) => {
+                    // If a nav link is clicked
+                    if (e.target.matches('a[href^="#"]')) {
+                        closeMenu();
+                    }
+                    // If a language link is clicked
+                    else if (e.target.matches('a[data-lang]')) {
+                        e.preventDefault();
+                        const lang = e.target.dataset.lang;
+                        setLanguage(lang);
+                        closeMenu();
+                    }
+                });
             }
             
             function initTypingEffect() {
