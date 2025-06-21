@@ -144,12 +144,18 @@
 
         /* Contact Icon Animation */
         .contact-icon {
-            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), color 0.3s ease;
         }
+
         .contact-icon:hover {
             transform: scale(1.2) rotate(-10deg);
-            color: #3b82f6;
         }
+        
+        /* Specific hover colors */
+        a[aria-label="Email"]:hover { color: #3b82f6; }
+        a[aria-label="LinkedIn"]:hover { color: #0A66C2; }
+        a[aria-label="WhatsApp"]:hover { color: #25D366; }
+
     </style>
 </head>
 <body class="antialiased">
@@ -185,7 +191,7 @@
     <main>
         <!-- Hero Section -->
         <section id="about" class="section container mx-auto text-center flex flex-col items-center justify-center min-h-screen">
-             <img src="https://placehold.co/150x150/111827/FFFFFF?text=AK" alt="Ali Kassem" class="rounded-full w-40 h-40 mb-6 border-4 border-gray-700 reveal-element">
+             <img src="https://placehold.co/150x150/111827/FFFFFF?text=AK" alt="Ali Kassem" class="rounded-full w-40 h-40 mb-6 border-4 border-gray-700 reveal-element" onerror="this.onerror=null;this.src='https://placehold.co/150x150/111827/FFFFFF?text=Image+Error';">
             <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 reveal-element">Ali Kassem</h1>
             <p class="text-xl md:text-2xl text-blue-400 mb-8 h-8 reveal-element"><span id="typing-subtitle"></span><span class="typing-cursor"></span></p>
             <p class="max-w-3xl text-lg text-gray-400 reveal-element">
@@ -213,7 +219,7 @@
             <div class="container mx-auto">
                 <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element">Projects</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projects-container">
-                    <!-- Projects dynamically inserted -->
+                    <!-- Projects dynamically inserted here -->
                 </div>
             </div>
         </section>
@@ -274,15 +280,9 @@
             <h2 class="text-2xl font-bold mb-4 reveal-element">Get In Touch</h2>
             <p class="text-gray-400 mb-8 max-w-md mx-auto reveal-element">I'm always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out!</p>
             <div class="flex justify-center items-center space-x-8 reveal-element">
-                <div class="relative">
-                    <a href="mailto:alikassemak2005@gmail.com" class="text-3xl text-gray-400 contact-icon" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                    <button id="copy-email-btn" class="ml-2 text-gray-400 hover:text-white" aria-label="Copy email address">
-                        <i class="fas fa-copy"></i>
-                    </button>
-                    <div id="copy-tooltip">Copied!</div>
-                </div>
+                <a href="mailto:alikassemak2005@gmail.com" class="text-3xl text-gray-400 contact-icon" aria-label="Email"><i class="fas fa-envelope"></i></a>
                 <a href="https://www.linkedin.com/in/ali-kassem-7224bb244/" target="_blank" rel="noopener noreferrer" class="text-3xl text-gray-400 contact-icon" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                <a href="tel:01017198344" class="text-3xl text-gray-400 contact-icon" aria-label="Phone"><i class="fas fa-phone"></i></a>
+                <a href="https://wa.me/201017198344" target="_blank" rel="noopener noreferrer" class="text-3xl text-gray-400 contact-icon" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
              <p class="mt-10 text-gray-500 text-sm reveal-element">&copy; 2025 Ali Kassem. All rights reserved.</p>
         </div>
@@ -292,7 +292,7 @@
     <div id="project-modal" class="modal-overlay">
         <div class="modal-content relative">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-4xl leading-none transition-transform duration-200 hover:scale-125" aria-label="Close modal">&times;</button>
-            <img id="modal-img" src="" alt="Project Image" class="w-full h-64 object-cover rounded-lg mb-4">
+            <img id="modal-img" src="" alt="Project Image" class="w-full h-64 object-cover rounded-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1f2937/d1d5db?text=Image+Error';">
             <h3 id="modal-title" class="text-3xl font-bold text-white mb-2"></h3>
             <div id="modal-tags" class="mb-4 flex flex-wrap gap-2"></div>
             <p id="modal-description" class="text-gray-300 mb-6"></p>
@@ -311,8 +311,6 @@
                 { id: 'ai-model', title: "AI Image Classification Model", description: "Developed an image classification model achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.", longDescription: "This project showcases building and fine-tuning a deep learning model for image classification. By leveraging Python and popular libraries within Google Colab, I processed a large dataset, applied data augmentation, trained a CNN, and systematically analyzed results to achieve high accuracy. This demonstrates a strong understanding of the end-to-end machine learning workflow.", tags: ["Python", "Google Colab", "Kaggle", "AI", "Deep Learning"], link: null, imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=Image+Classification" }
             ];
 
-            const emailToCopy = 'alikassemak2005@gmail.com';
-
             // --- INITIALIZATION ---
             renderProjects();
             initMobileMenu();
@@ -321,9 +319,8 @@
             initNavHighlightingOnScroll();
             initInteractiveCards();
             initParticleCanvas();
-            initCopyToClipboard();
 
-            // --- 3D PARTICLE BACKGROUND ANIMATION ---
+            // --- FLOATING SQUARES BACKGROUND ANIMATION ---
             function initParticleCanvas() {
                 const canvas = document.getElementById('particle-canvas');
                 if (!canvas) return;
@@ -339,30 +336,45 @@
                     constructor() {
                         this.x = Math.random() * canvas.width;
                         this.y = Math.random() * canvas.height;
-                        this.size = Math.random() * 2 + 1;
-                        this.speedX = Math.random() * 1 - 0.5;
-                        this.speedY = Math.random() * 1 - 0.5;
-                        this.color = `rgba(59, 130, 246, ${Math.random() * 0.5 + 0.2})`;
+                        this.size = Math.random() * 15 + 5;
+                        this.speedX = Math.random() * 0.4 - 0.2;
+                        this.speedY = Math.random() * -1 - 0.2; // Move upwards
+                        this.color = `rgba(59, 130, 246, ${Math.random() * 0.4 + 0.1})`; // Tailwind's blue-500 with random opacity
+                        this.rotation = Math.random() * Math.PI * 2;
+                        this.rotationSpeed = (Math.random() - 0.5) * 0.02;
                     }
                     update() {
                         this.x += this.speedX;
                         this.y += this.speedY;
+                        this.rotation += this.rotationSpeed;
 
-                        if (this.size > 0.2) this.size -= 0.01;
-                        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                        // If particle goes off top of the screen, reset it to the bottom
+                        if (this.y < -this.size) {
+                            this.y = canvas.height + this.size;
+                            this.x = Math.random() * canvas.width;
+                        }
+                         // If particle goes off the side, make it wrap around
+                        if (this.x < -this.size) {
+                            this.x = canvas.width + this.size;
+                        } else if (this.x > canvas.width + this.size) {
+                            this.x = -this.size;
+                        }
                     }
                     draw() {
-                        ctx.fillStyle = this.color;
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                        ctx.fill();
+                        ctx.save();
+                        ctx.strokeStyle = this.color;
+                        ctx.lineWidth = 1.5;
+                        ctx.translate(this.x, this.y);
+                        ctx.rotate(this.rotation);
+                        // Draw a square centered on the particle's x/y
+                        ctx.strokeRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                        ctx.restore();
                     }
                 }
 
                 function initParticles() {
                     particles = [];
-                    const particleCount = window.innerWidth < 768 ? 40 : 80;
+                    const particleCount = window.innerWidth < 768 ? 15 : 25;
                     for (let i = 0; i < particleCount; i++) {
                         particles.push(new Particle());
                     }
@@ -445,13 +457,17 @@
             };
 
             // Close modal on overlay click or escape key
-            modal.addEventListener('click', e => (e.target === modal) && closeModal());
+            if (modal) {
+                modal.addEventListener('click', e => (e.target === modal) && closeModal());
+            }
             document.addEventListener('keydown', e => (e.key === "Escape") && closeModal());
             
             // --- MOBILE MENU ---
             function initMobileMenu() {
                 const btn = document.getElementById('mobile-menu-button');
                 const menu = document.getElementById('mobile-menu');
+                if (!btn || !menu) return;
+
                 btn.addEventListener('click', () => {
                     menu.classList.toggle('hidden');
                     // Toggle icon
@@ -465,7 +481,12 @@
                     }
                 });
                 // Close menu when a link is clicked
-                menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => menu.classList.add('hidden')));
+                menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                    const icon = btn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }));
             }
             
             // --- TYPING EFFECT ---
@@ -483,10 +504,10 @@
                         index++;
                         setTimeout(type, 100);
                     } else {
-                        // After typing, make the cursor blink less aggressively
-                         setTimeout(() => {
-                             if(cursorEl) cursorEl.style.animation = 'blink 1.5s infinite';
-                         }, 1000);
+                        // After typing, remove the cursor
+                        if (cursorEl) {
+                            cursorEl.style.display = 'none';
+                        }
                     }
                 }
                 setTimeout(type, 500); // Initial delay
@@ -495,6 +516,10 @@
             // --- SCROLL REVEAL ---
             function initScrollReveal() {
                 const els = document.querySelectorAll('.reveal-element');
+                if (!('IntersectionObserver' in window)) {
+                    els.forEach(el => el.classList.add('visible'));
+                    return; // Fallback for older browsers
+                }
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
@@ -510,7 +535,8 @@
             function initNavHighlightingOnScroll() {
                 const sections = document.querySelectorAll('section[id]');
                 const navLinks = document.querySelectorAll('#desktop-nav a');
-                const observer = new IntersectionObserver(entries => {
+                 if (!('IntersectionObserver' in window)) return;
+                 const observer = new IntersectionObserver(entries => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             navLinks.forEach(link => {
@@ -518,7 +544,7 @@
                             });
                         }
                     });
-                }, { rootMargin: '-40% 0px -40% 0px', threshold: 0.1 }); // Adjusted rootMargin for better accuracy
+                }, { rootMargin: '-40% 0px -40% 0px', threshold: 0.1 }); 
                 sections.forEach(sec => observer.observe(sec));
             }
 
@@ -535,24 +561,6 @@
                     });
                     card.addEventListener('mouseleave', () => {
                         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-                    });
-                });
-            }
-
-            // --- COPY TO CLIPBOARD ---
-            function initCopyToClipboard() {
-                const copyBtn = document.getElementById('copy-email-btn');
-                const tooltip = document.getElementById('copy-tooltip');
-                if (!copyBtn || !tooltip) return;
-
-                copyBtn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(emailToCopy).then(() => {
-                        tooltip.classList.add('visible');
-                        setTimeout(() => {
-                            tooltip.classList.remove('visible');
-                        }, 2000);
-                    }).catch(err => {
-                        console.error('Failed to copy email: ', err);
                     });
                 });
             }
