@@ -13,40 +13,69 @@
             background-color: #111827; /* Dark Blue-Gray */
             color: #d1d5db; /* Light Gray */
         }
+
+        /* Canvas for background animation */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
         .section {
             padding: 6rem 1rem;
+            position: relative; /* Ensure sections are above canvas */
+            z-index: 1;
         }
+        
         @media (min-width: 768px) {
             .section {
-                padding: 6rem 2rem;
+                padding: 8rem 2rem;
             }
         }
+
         .glass-effect {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+            background: rgba(17, 24, 39, 0.5); /* Darker glass for better contrast */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 0.75rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
         }
+
         .tag {
-            background-color: #374151; /* Medium Gray */
+            background-color: #374151;
             color: #d1d5db;
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
             font-size: 0.8rem;
             font-weight: 500;
         }
+
         .nav-link {
             transition: color 0.3s ease;
+            position: relative;
         }
+        
+        .nav-link.active {
+            color: #3b82f6;
+        }
+
         .nav-link:hover {
             color: #3b82f6;
         }
-        .project-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+        /* Interactive Card Styling */
+        .interactive-card {
+            transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+            will-change: transform;
         }
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+
+        .interactive-card:hover {
+             box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3), 0 4px 8px -4px rgba(0, 0, 0, 0.2);
         }
         
         /* Modal Styles */
@@ -56,114 +85,125 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 50;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
         }
+        
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
+            transition: opacity 0.3s ease;
         }
+
         .modal-content {
-            background-color: #1f2937; /* Darker Gray */
+            background-color: #1f2937;
             padding: 2rem;
             border-radius: 0.75rem;
-            max-width: 50rem; /* Increased width */
+            max-width: 50rem;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
             transform: scale(0.95);
             transition: transform 0.3s ease;
         }
+
         .modal-overlay.active .modal-content {
             transform: scale(1);
+        }
+        
+        /* Scroll Reveal Animation */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            will-change: opacity, transform;
+        }
+        .reveal-element.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Typing cursor effect */
+        .typing-cursor {
+             display: inline-block;
+             width: 2px;
+             height: 1.5rem;
+             background-color: #3b82f6;
+             animation: blink 0.7s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Contact Icon Animation */
+        .contact-icon {
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .contact-icon:hover {
+            transform: scale(1.2) rotate(-10deg);
+            color: #3b82f6;
         }
     </style>
 </head>
 <body class="antialiased">
+    
+    <!-- Animated background -->
+    <canvas id="particle-canvas"></canvas>
 
     <!-- Header & Navigation -->
     <header class="fixed w-full z-10 glass-effect top-0 shadow-md">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-xl font-bold text-white">Ali Kassem</a>
-            <div class="hidden md:flex space-x-6 text-gray-300">
+            <div id="desktop-nav" class="hidden md:flex space-x-6 text-gray-300">
                 <a href="#about" class="nav-link">About</a>
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#projects" class="nav-link">Projects</a>
                 <a href="#experience" class="nav-link">Experience</a>
                 <a href="#contact" class="nav-link">Contact</a>
             </div>
-            <button id="mobile-menu-button" class="md:hidden text-white">
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
                 <i class="fas fa-bars fa-lg"></i>
             </button>
         </nav>
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-gray-800">
-            <a href="#about" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700">About</a>
-            <a href="#skills" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700">Skills</a>
-            <a href="#projects" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700">Projects</a>
-            <a href="#experience" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700">Experience</a>
-            <a href="#contact" class="block py-2 px-4 text-sm text-gray-300 hover:bg-gray-700">Contact</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800/80 backdrop-blur">
+            <a href="#about" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700">About</a>
+            <a href="#skills" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700">Skills</a>
+            <a href="#projects" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700">Projects</a>
+            <a href="#experience" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700">Experience</a>
+            <a href="#contact" class="block py-3 px-6 text-sm text-gray-300 hover:bg-gray-700">Contact</a>
         </div>
     </header>
 
     <main>
-        <!-- Sections: Hero, Skills, Projects, Experience -->
         <!-- Hero Section -->
         <section id="about" class="section container mx-auto text-center flex flex-col items-center justify-center min-h-screen">
-             <img src="https://placehold.co/150x150/111827/FFFFFF?text=AK" alt="Ali Kassem" class="rounded-full w-40 h-40 mb-6 border-4 border-gray-700">
-            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">Ali Kassem</h1>
-            <p class="text-xl md:text-2xl text-blue-400 mb-8">Computer Science Student</p>
-            <p class="max-w-3xl text-lg text-gray-400">
-               A Computer Science student at E-JUST specializing in AI and software development. I use my skills in Python, Machine learning and Deep learning to build innovative tech solutions and solve real-world problems.
+             <img src="image_c65a9f.png" alt="Ali Kassem" class="rounded-full w-40 h-40 mb-6 border-4 border-gray-700 reveal-element object-cover">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 reveal-element">Ali Kassem</h1>
+            <p class="text-xl md:text-2xl text-blue-400 mb-8 h-8 reveal-element"><span id="typing-subtitle"></span><span class="typing-cursor"></span></p>
+            <p class="max-w-3xl text-lg text-gray-400 reveal-element">
+                A Computer Science student at E-JUST specializing in AI and software development. I use my skills in Python, Machine learning and Deep learning to build innovative tech solutions and solve real-world problems.
             </p>
         </section>
 
         <!-- Skills Section -->
         <section id="skills" class="section bg-gray-900/50">
             <div class="container mx-auto">
-                <h2 class="text-3xl font-bold text-center text-white mb-12">My Skillset</h2>
+                <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element">My Skillset</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    
-                    <div class="glass-effect p-6 text-center">
-                        <i class="fas fa-code fa-2x text-blue-400 mb-4"></i>
-                        <h3 class="text-xl font-semibold text-white mb-2">Programming</h3>
-                        <p class="text-gray-400">Python (Object-Oriented Programming)</p>
-                    </div>
-
-                    <div class="glass-effect p-6 text-center">
-                        <i class="fas fa-brain fa-2x text-blue-400 mb-4"></i>
-                        <h3 class="text-xl font-semibold text-white mb-2">AI & Data Science</h3>
-                        <p class="text-gray-400">Machine learning and Deep Learning Concepts, Image Classification, LLM Integration, Google Colab</p>
-                    </div>
-
-                    <div class="glass-effect p-6 text-center">
-                        <i class="fas fa-tools fa-2x text-blue-400 mb-4"></i>
-                        <h3 class="text-xl font-semibold text-white mb-2">Software & Tools</h3>
-                        <p class="text-gray-400">Git, GitHub, VS Code, Tkinter, SQLite, Llama.cpp</p>
-                    </div>
-
-                    <div class="glass-effect p-6 text-center">
-                        <i class="fas fa-tasks fa-2x text-blue-400 mb-4"></i>
-                        <h3 class="text-xl font-semibold text-white mb-2">Professional Skills</h3>
-                        <p class="text-gray-400">Project Management, Problem Solving, Error Analysis</p>
-                    </div>
-
-                    <div class="glass-effect p-6 text-center">
-                        <i class="fas fa-language fa-2x text-blue-400 mb-4"></i>
-                        <h3 class="text-xl font-semibold text-white mb-2">Languages</h3>
-                        <p class="text-gray-400">Arabic (Native), English (Advanced), Japanese (Basics)</p>
-                    </div>
-                     <div class="glass-effect p-6 text-center">
-                        <i class="fas fa-atom fa-2x text-blue-400 mb-4"></i>
-                        <h3 class="text-xl font-semibold text-white mb-2">Emerging Tech</h3>
-                        <p class="text-gray-400">Familiar with Quantum Computing Applications in AI</p>
-                    </div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-code fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">Programming</h3><p class="text-gray-400">Python (Object-Oriented Programming)</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-brain fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">AI & Data Science</h3><p class="text-gray-400">Machine learning, Deep Learning, Image Classification, LLM Integration</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-tools fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">Software & Tools</h3><p class="text-gray-400">Git, GitHub, VS Code, Tkinter, SQLite, Llama.cpp, Google Colab</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-tasks fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">Professional Skills</h3><p class="text-gray-400">Project Management, Problem Solving, Error Analysis</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-language fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">Languages</h3><p class="text-gray-400">Arabic (Native), English (Advanced), Japanese (Basics)</p></div>
+                    <div class="glass-effect p-6 text-center interactive-card reveal-element"><i class="fas fa-atom fa-2x text-blue-400 mb-4"></i><h3 class="text-xl font-semibold text-white mb-2">Emerging Tech</h3><p class="text-gray-400">Familiar with Quantum Computing Applications in AI</p></div>
                 </div>
             </div>
         </section>
@@ -171,9 +211,9 @@
         <!-- Projects Section -->
         <section id="projects" class="section">
             <div class="container mx-auto">
-                <h2 class="text-3xl font-bold text-center text-white mb-12">Projects</h2>
+                <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element">Projects</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projects-container">
-                    <!-- Projects will be dynamically inserted here -->
+                    <!-- Projects dynamically inserted -->
                 </div>
             </div>
         </section>
@@ -181,50 +221,14 @@
         <!-- Experience Section -->
         <section id="experience" class="section bg-gray-900/50">
             <div class="container mx-auto">
-                <h2 class="text-3xl font-bold text-center text-white mb-12">Experience & Education</h2>
+                <h2 class="text-3xl font-bold text-center text-white mb-12 reveal-element">Experience & Education</h2>
                 <div class="max-w-3xl mx-auto">
                     <div class="relative border-l-2 border-blue-500 pl-8 space-y-12">
-                         <!-- E-JUST University -->
-                        <div class="relative">
-                             <div class="absolute -left-[42px] top-1.5 h-6 w-6 rounded-full bg-blue-500 border-4 border-gray-900"></div>
-                            <p class="text-sm text-gray-400">2024 - 2028</p>
-                            <h3 class="text-xl font-semibold text-white">Bachelor of Computer Science</h3>
-                            <p class="text-blue-300">E-JUST University</p>
-                        </div>
-                        
-                        <!-- AI Training Intern -->
-                        <div class="relative">
-                            <div class="absolute -left-[42px] top-1.5 h-6 w-6 rounded-full bg-blue-500 border-4 border-gray-900"></div>
-                            <p class="text-sm text-gray-400">2024 - 2025</p>
-                            <h3 class="text-xl font-semibold text-white">AI Training Intern</h3>
-                            <p class="text-blue-300">Shabab Mobtakeroon</p>
-                            <p class="mt-2 text-gray-400">Trained an image classification model using Python and Google Colab, achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.</p>
-                        </div>
-
-                         <!-- SCM Project -->
-                        <div class="relative">
-                            <div class="absolute -left-[42px] top-1.5 h-6 w-6 rounded-full bg-blue-500 border-4 border-gray-900"></div>
-                            <p class="text-sm text-gray-400">Jan 2025 - Apr 2025</p>
-                            <h3 class="text-xl font-semibold text-white">Supply Chain Management Project</h3>
-                            <p class="text-blue-300">Personal Project</p>
-                            <p class="mt-2 text-gray-400">Developed a comprehensive SCM simulation in Python using OOP, integrating a local LLM to provide intelligent insights, analyze customer reviews, and generate dynamic marketing content.</p>
-                        </div>
-                        
-                        <!-- American Institute -->
-                        <div class="relative">
-                            <div class="absolute -left-[42px] top-1.5 h-6 w-6 rounded-full bg-blue-500 border-4 border-gray-900"></div>
-                            <p class="text-sm text-gray-400">2022 - 2023</p>
-                            <h3 class="text-xl font-semibold text-white">English Conversation Advanced 3</h3>
-                            <p class="text-blue-300">American Institute</p>
-                        </div>
-                        
-                        <!-- Victoria College -->
-                        <div class="relative">
-                           <div class="absolute -left-[42px] top-1.5 h-6 w-6 rounded-full bg-blue-500 border-4 border-gray-900"></div>
-                            <p class="text-sm text-gray-400">2010 - 2014</p>
-                            <h3 class="text-xl font-semibold text-white">High School</h3>
-                            <p class="text-blue-300">Victoria College</p>
-                        </div>
+                        <div class="relative reveal-element"><div class="absolute -left-[42px] top-1.5 h-6 w-6 rounded-full bg-blue-500 border-4 border-gray-900"></div><p class="text-sm text-gray-400">2024 - 2028</p><h3 class="text-xl font-semibold text-white">Bachelor of Computer Science</h3><p class="text-blue-300">E-JUST University</p></div>
+                        <div class="relative reveal-element"><div class="absolute -left-[42px] top-1.5 h-6 w-6 rounded-full bg-blue-500 border-4 border-gray-900"></div><p class="text-sm text-gray-400">2024 - 2025</p><h3 class="text-xl font-semibold text-white">AI Training Intern</h3><p class="text-blue-300">Shabab Mobtakeroon</p><p class="mt-2 text-gray-400">Trained an image classification model using Python and Google Colab, achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.</p></div>
+                        <div class="relative reveal-element"><div class="absolute -left-[42px] top-1.5 h-6 w-6 rounded-full bg-blue-500 border-4 border-gray-900"></div><p class="text-sm text-gray-400">Jan 2025 - Apr 2025</p<h3 class="text-xl font-semibold text-white">Supply Chain Management Project</h3><p class="text-blue-300">Personal Project</p><p class="mt-2 text-gray-400">Developed a comprehensive SCM simulation in Python using OOP, integrating a local LLM to provide intelligent insights, analyze customer reviews, and generate dynamic marketing content.</p></div>
+                        <div class="relative reveal-element"><div class="absolute -left-[42px] top-1.5 h-6 w-6 rounded-full bg-blue-500 border-4 border-gray-900"></div><p class="text-sm text-gray-400">2022 - 2023</p><h3 class="text-xl font-semibold text-white">English Conversation Advanced 3</h3><p class="text-blue-300">American Institute</p></div>
+                        <div class="relative reveal-element"><div class="absolute -left-[42px] top-1.5 h-6 w-6 rounded-full bg-blue-500 border-4 border-gray-900"></div><p class="text-sm text-gray-400">2010 - 2014</p><h3 class="text-xl font-semibold text-white">High School</h3><p class="text-blue-300">Victoria College</p></div>
                     </div>
                 </div>
             </div>
@@ -235,24 +239,24 @@
     <!-- Footer -->
     <footer id="contact" class="bg-gray-900 text-white">
         <div class="container mx-auto py-12 px-6 text-center">
-            <h2 class="text-2xl font-bold mb-4">Get In Touch</h2>
-            <p class="text-gray-400 mb-8">Feel free to reach out for collaborations or just a friendly chat.</p>
-            <div class="flex justify-center items-center space-x-6">
-                <a href="mailto:alikassemak2005@gmail.com" class="text-2xl nav-link"><i class="fas fa-envelope"></i></a>
-                <a href="https://www.linkedin.com/in/ali-kassem-7224bb244/" target="_blank" rel="noopener noreferrer" class="text-2xl nav-link"><i class="fab fa-linkedin"></i></a>
-                <a href="tel:01017198344" class="text-2xl nav-link"><i class="fas fa-phone"></i></a>
+            <h2 class="text-2xl font-bold mb-4 reveal-element">Get In Touch</h2>
+            <p class="text-gray-400 mb-8 reveal-element">Feel free to reach out for collaborations or just a friendly chat.</p>
+            <div class="flex justify-center items-center space-x-8 reveal-element">
+                <a href="mailto:alikassemak2005@gmail.com" class="text-3xl text-gray-400 contact-icon"><i class="fas fa-envelope"></i></a>
+                <a href="https://www.linkedin.com/in/ali-kassem-7224bb244/" target="_blank" rel="noopener noreferrer" class="text-3xl text-gray-400 contact-icon"><i class="fab fa-linkedin"></i></a>
+                <a href="tel:01017198344" class="text-3xl text-gray-400 contact-icon"><i class="fas fa-phone"></i></a>
             </div>
-             <p class="mt-8 text-gray-500 text-sm">&copy; 2025 Ali Kassem. All rights reserved.</p>
+             <p class="mt-10 text-gray-500 text-sm reveal-element">&copy; 2025 Ali Kassem. All rights reserved.</p>
         </div>
     </footer>
     
-    <!-- Modal -->
+    <!-- Modal for Project Details -->
     <div id="project-modal" class="modal-overlay">
         <div class="modal-content relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl leading-none">&times;</button>
             <img id="modal-img" src="" alt="Project Image" class="w-full h-64 object-cover rounded-lg mb-4">
             <h3 id="modal-title" class="text-3xl font-bold text-white mb-2"></h3>
-            <div id="modal-tags" class="mb-4"></div>
+            <div id="modal-tags" class="mb-4 flex flex-wrap"></div>
             <p id="modal-description" class="text-gray-300 mb-6"></p>
             <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
                 View Code on GitHub <i class="fab fa-github ml-2"></i>
@@ -261,123 +265,226 @@
     </div>
 
     <script>
-        // Data for projects
-        const projects = [
-            {
-                id: 'ai-model',
-                title: "AI Image Classification Model",
-                description: "Developed and evaluated an image classification model that achieved 92% accuracy on a Kaggle dataset. The process involved rigorous error analysis and performance tuning to optimize the model's effectiveness.",
-                longDescription: "This project showcases the ability to build and fine-tune a deep learning model for image classification. By leveraging Python and popular libraries within Google Colab, I was able to process a large dataset from Kaggle, apply data augmentation techniques, train a convolutional neural network (CNN), and systematically analyze the results to achieve high accuracy. This demonstrates a strong understanding of the end-to-end machine learning workflow.",
-                tags: ["Python", "Google Colab", "Kaggle"],
-                link: "#", // Link is a placeholder, so the button won't show
-                imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=Image+Classification"
-            },
-            {
-                id: 'scm-sim',
-                title: "Supply Chain Management (SCM) Simulation",
-                description: "Built a comprehensive SCM simulation using Object-Oriented principles in Python, featuring an integrated local LLM and a Tkinter GUI.",
-                longDescription: "This project is a complete, object-oriented simulation of a supply chain management system. It models the entire flow from suppliers to customers using Python classes. Key features include a GUI built with Tkinter, database integration with SQLite for persisting data, and the use of a local Large Language Model (LLM) to provide AI-powered insights, such as generating marketing slogans and analyzing customer reviews. It also implements the Proxy design pattern to manage access control for different user roles.",
-                tags: ["Python", "OOP", "LLM", "Tkinter", "SQLite", "Design Patterns"],
-                link: "https://github.com/ali3442/SCM-Simulation-Project",
-                imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=SCM+Simulation"
-            }
-        ];
+        document.addEventListener('DOMContentLoaded', () => {
 
-        // Function to render projects
-        function renderProjects() {
-            const container = document.getElementById('projects-container');
-            if (!container) return;
-            let projectsHTML = '';
-            projects.forEach(project => {
-                let tagsHTML = '';
-                project.tags.forEach(tag => {
-                    tagsHTML += `<span class="tag mr-2 mb-2 inline-block">${tag}</span>`;
-                });
+            // --- DATA ---
+            const projects = [
+                { id: 'ai-model', title: "AI Image Classification Model", description: "Developed an image classification model achieving 92% accuracy on a Kaggle dataset through rigorous error analysis and performance tuning.", longDescription: "This project showcases building and fine-tuning a deep learning model for image classification. By leveraging Python and popular libraries within Google Colab, I processed a large dataset, applied data augmentation, trained a CNN, and systematically analyzed results to achieve high accuracy. This demonstrates a strong understanding of the end-to-end machine learning workflow.", tags: ["Python", "Google Colab", "Kaggle", "AI"], link: "#", imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=Image+Classification" },
+                { id: 'scm-sim', title: "Supply Chain Management (SCM) Simulation", description: "Built a comprehensive SCM simulation using OOP in Python, featuring an integrated local LLM and a Tkinter GUI.", longDescription: "This project is a complete, object-oriented simulation of a supply chain. It models the flow from suppliers to customers using Python classes. Key features include a Tkinter GUI, SQLite for data persistence, and a local LLM to provide AI-powered insights, such as generating marketing slogans and analyzing customer reviews. It also implements the Proxy design pattern for user role access control.", tags: ["Python", "OOP", "LLM", "Tkinter", "SQLite", "Design Patterns"], link: "https://github.com/ali3442/SCM-Simulation-Project", imageUrl: "https://placehold.co/600x400/1f2937/d1d5db?text=SCM+Simulation" }
+            ];
 
-                // Conditionally add the "View Project" button
-                let buttonHTML = '';
-                if (project.link && project.link !== '#') {
-                    buttonHTML = `
-                        <button onclick="openModal('${project.id}')" class="text-blue-400 hover:text-blue-300 font-semibold self-start text-left mt-auto pt-4">
-                            View Project <i class="fas fa-arrow-right ml-1"></i>
-                        </button>
-                    `;
+            // --- INITIALIZATION ---
+            renderProjects();
+            initMobileMenu();
+            initTypingEffect();
+            initScrollReveal();
+            initNavHighlightingOnScroll();
+            initInteractiveCards();
+            initFloatingBoxesCanvas(); 
+
+            // --- FLOATING BOXES BACKGROUND ANIMATION ---
+            function initFloatingBoxesCanvas() {
+                const canvas = document.getElementById('particle-canvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                let boxes = [];
+
+                const setCanvasSize = () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                };
+
+                class Box {
+                    constructor() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = Math.random() * canvas.height;
+                        this.z = Math.random() * canvas.width;
+                        this.size = 10;
+                        this.vx = (Math.random() - 0.5) * 0.5;
+                        this.vy = (Math.random() - 0.5) * 0.5;
+                        this.vz = (Math.random() - 0.5) * 0.5;
+                        this.rotation = Math.random() * Math.PI;
+                        this.rotationSpeed = (Math.random() - 0.5) * 0.01;
+                    }
+
+                    update() {
+                        this.x += this.vx;
+                        this.y += this.vy;
+                        this.z += this.vz;
+                        this.rotation += this.rotationSpeed;
+
+                        if(this.x < -this.size || this.x > canvas.width + this.size) this.vx = -this.vx;
+                        if(this.y < -this.size || this.y > canvas.height + this.size) this.vy = -this.vy;
+                        if(this.z < -canvas.width || this.z > canvas.width) this.vz = -this.vz;
+                    }
+
+                    draw() {
+                        const scale = canvas.width / (canvas.width + this.z);
+                        const x2d = this.x * scale + canvas.width / 2 * (1 - scale);
+                        const y2d = this.y * scale + canvas.height / 2 * (1 - scale);
+                        const size = this.size * scale;
+                        
+                        ctx.save();
+                        ctx.translate(x2d, y2d);
+                        ctx.rotate(this.rotation);
+                        
+                        ctx.strokeStyle = `rgba(59, 130, 246, ${scale * 0.8})`; // Blue color, fades with distance
+                        ctx.lineWidth = 1.5;
+                        ctx.strokeRect(-size / 2, -size / 2, size, size);
+                        ctx.restore();
+                    }
                 }
 
-                projectsHTML += `
-                    <div class="glass-effect p-6 project-card flex flex-col h-full">
-                        <div>
-                            <h3 class="text-2xl font-bold text-white mb-3">${project.title}</h3>
-                            <p class="text-gray-400 mb-4">${project.description}</p>
-                            <div class="mb-4">
-                                ${tagsHTML}
+                function initBoxes() {
+                    boxes = [];
+                    const boxCount = window.innerWidth < 768 ? 30 : 60;
+                    for (let i = 0; i < boxCount; i++) {
+                        boxes.push(new Box());
+                    }
+                }
+
+                function animate() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    boxes.forEach(box => {
+                        box.update();
+                        box.draw();
+                    });
+                    requestAnimationFrame(animate);
+                }
+
+                setCanvasSize();
+                initBoxes();
+                animate();
+
+                window.addEventListener('resize', () => {
+                    setCanvasSize();
+                    initBoxes();
+                });
+            }
+
+            // --- FEATURE: PROJECTS RENDERING AND MODAL ---
+            function renderProjects() {
+                const container = document.getElementById('projects-container');
+                if (!container) return;
+                container.innerHTML = projects.map(project => {
+                    const tagsHTML = project.tags.map(tag => `<span class="tag mr-2 mb-2 inline-block">${tag}</span>`).join('');
+                    
+                    let buttonHTML = '';
+                    if (project.link && project.link !== '#') {
+                        buttonHTML = `
+                            <button onclick="openModal('${project.id}')" class="text-blue-400 hover:text-blue-300 font-semibold self-start text-left mt-auto pt-4 transition-colors">
+                                View Project <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        `;
+                    }
+
+                    return `
+                        <div class="glass-effect p-6 interactive-card flex flex-col h-full reveal-element">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white mb-3">${project.title}</h3>
+                                <p class="text-gray-400 mb-4">${project.description}</p>
+                                <div class="mb-4 flex flex-wrap">
+                                    ${tagsHTML}
+                                </div>
                             </div>
+                            ${buttonHTML}
                         </div>
-                        ${buttonHTML}
-                    </div>
-                `;
-            });
-            container.innerHTML = projectsHTML;
-        }
-
-        const modal = document.getElementById('project-modal');
-
-        function openModal(projectId) {
-            const project = projects.find(p => p.id === projectId);
-            if (!project || !modal) return;
-
-            document.getElementById('modal-title').innerText = project.title;
-            document.getElementById('modal-description').innerText = project.longDescription;
-            document.getElementById('modal-img').src = project.imageUrl;
-            document.getElementById('modal-link').href = project.link;
-
-            const tagsContainer = document.getElementById('modal-tags');
-            tagsContainer.innerHTML = '';
-            project.tags.forEach(tag => {
-                tagsContainer.innerHTML += `<span class="tag mr-2 mb-2 inline-block">${tag}</span>`;
-            });
+                    `;
+                }).join('');
+            }
             
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            if (modal) {
-                modal.classList.remove('active');
+            const modal = document.getElementById('project-modal');
+            window.openModal = (id) => {
+                const p = projects.find(p => p.id === id);
+                if (!p || !modal) return;
+                modal.querySelector('#modal-title').innerText = p.title;
+                modal.querySelector('#modal-description').innerText = p.longDescription;
+                modal.querySelector('#modal-img').src = p.imageUrl;
+                const link = modal.querySelector('#modal-link');
+                link.style.display = (p.link && p.link !== '#') ? 'inline-block' : 'none';
+                if(link.style.display === 'inline-block') link.href = p.link;
+                modal.querySelector('#modal-tags').innerHTML = p.tags.map(tag => `<span class="tag mr-2 mb-2 inline-block">${tag}</span>`).join('');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+            window.closeModal = () => {
+                if(modal) { modal.classList.remove('active'); document.body.style.overflow = ''; }
+            };
+            modal.addEventListener('click', e => (e.target === modal) && closeModal());
+            document.addEventListener('keydown', e => (e.key === "Escape") && closeModal());
+            
+            // --- FEATURE: MOBILE MENU ---
+            function initMobileMenu() {
+                const btn = document.getElementById('mobile-menu-button'), menu = document.getElementById('mobile-menu');
+                btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+                menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => menu.classList.add('hidden')));
             }
-        }
+            
+            // --- TYPING EFFECT WITH CURSOR REMOVAL ---
+            function initTypingEffect() {
+                const subtitleEl = document.getElementById('typing-subtitle');
+                const cursorEl = document.querySelector('.typing-cursor');
+                if (!subtitleEl || !cursorEl) return;
 
-        // Close modal on outside click
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
+                const text = "Computer Science Student";
+                let index = 0;
+                
+                function type() {
+                    if (index < text.length) {
+                        subtitleEl.textContent += text.charAt(index);
+                        index++;
+                        setTimeout(type, 100);
+                    } else {
+                        // When typing is finished, hide the cursor
+                        cursorEl.style.display = 'none';
+                    }
+                }
+                setTimeout(type, 500);
+            }
+            
+            // --- FEATURE: SCROLL REVEAL ---
+            function initScrollReveal() {
+                const els = document.querySelectorAll('.reveal-element');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.1 });
+                els.forEach(el => observer.observe(el));
+            }
+            
+            // --- FEATURE: NAV HIGHLIGHTING ON SCROLL ---
+            function initNavHighlightingOnScroll() {
+                const sections = document.querySelectorAll('section[id]');
+                const navLinks = document.querySelectorAll('#desktop-nav a');
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            navLinks.forEach(link => {
+                                link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                            });
+                        }
+                    });
+                }, { rootMargin: '-50% 0px -50% 0px' });
+                sections.forEach(sec => observer.observe(sec));
+            }
+
+            // --- INTERACTIVE CARD TILT ---
+            function initInteractiveCards() {
+                document.querySelectorAll('.interactive-card').forEach(card => {
+                    card.addEventListener('mousemove', e => {
+                        const { left, top, width, height } = card.getBoundingClientRect();
+                        const x = e.clientX - left, y = e.clientY - top;
+                        const rotateX = -8 * ((y - height / 2) / height);
+                        const rotateY = 8 * ((x - width / 2) / width);
+                        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.04)`;
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                    });
+                });
             }
         });
-        
-        // Close modal on Escape key press
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") {
-                closeModal();
-            }
-        });
-
-
-        // --- Mobile Menu Logic ---
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-
-        // Initial render of projects on page load
-        document.addEventListener('DOMContentLoaded', renderProjects);
     </script>
 </body>
 </html>
